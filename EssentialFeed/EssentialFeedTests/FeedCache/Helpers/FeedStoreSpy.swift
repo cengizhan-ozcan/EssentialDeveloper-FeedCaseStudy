@@ -48,16 +48,16 @@ class FeedStoreSpy: FeedStore {
         receivedMessages.append(.insert(feed, timestamp))
     }
     
+    func retrieve(completion: @escaping RetrievalCompletion) {
+        retrievalCompletions.append(completion)
+        receivedMessages.append(.retrieve)
+    }
+    
     func completeRetrieval(with error: Error, at index: Int = 0) {
         retrievalCompletions[index](error)
     }
     
-    func completeRetrievalSuccessfully(at index: Int = 0) {
+    func completeRetrievalWithEmptyCache(at index: Int = 0) {
         retrievalCompletions[index](nil)
-    }
-    
-    func retrieve(completion: @escaping RetrievalCompletion) {
-        retrievalCompletions.append(completion)
-        receivedMessages.append(.retrieve)
     }
 }
