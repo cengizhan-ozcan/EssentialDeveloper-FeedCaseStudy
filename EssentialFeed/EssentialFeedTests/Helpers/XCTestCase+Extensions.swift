@@ -1,5 +1,5 @@
 //
-//  XCTestCase+Extension.swift
+//  XCTestCase+Extensions.swift
 //  EssentialFeedTests
 //
 //  Created by Cengizhan Özcan on 16.12.2022.
