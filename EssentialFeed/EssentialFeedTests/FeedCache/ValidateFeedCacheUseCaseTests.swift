@@ -26,7 +26,7 @@ class ValidateFeedCacheUseCaseTests: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteCachedFeed])
     }
     
-    func test_validateCache_doesNotDeletesCachesOnEmptyCache() {
+    func test_validateCache_doesNotDeletesOnEmptyCache() {
         let (sut, store) = makeSUT()
         
         sut.validateCache()
@@ -35,7 +35,7 @@ class ValidateFeedCacheUseCaseTests: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
     
-    func test_validateCache_doesNotDeletesCacheOnLessThanSeventDaysOldCache() {
+    func test_validateCache_doesNotDeleteOnLessThanSeventDaysOldCache() {
         let feed = uniqueImageFeed()
         let fixedCurrentDate = Date()
         let lessThanSevenDaysOldTimestamp = fixedCurrentDate.adding(days: -7).adding(seconds: 1)
@@ -45,6 +45,30 @@ class ValidateFeedCacheUseCaseTests: XCTestCase {
         store.completeRetrieval(with: feed.local, timestamp: lessThanSevenDaysOldTimestamp)
         
         XCTAssertEqual(store.receivedMessages, [.retrieve])
+    }
+    
+    func test_validateCache_deletesOnSeventDaysOldCache() {
+        let feed = uniqueImageFeed()
+        let fixedCurrentDate = Date()
+        let sevenDaysOldTimestamp = fixedCurrentDate.adding(days: -7)
+        let (sut, store) = makeSUT { fixedCurrentDate }
+        
+        sut.validateCache()
+        store.completeRetrieval(with: feed.local, timestamp: sevenDaysOldTimestamp)
+        
+        XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteCachedFeed])
+    }
+    
+    func test_validateCache_deletesOnMoreThanSeventDaysOldCache() {
+        let feed = uniqueImageFeed()
+        let fixedCurrentDate = Date()
+        let moreThanSevenDaysOldTimestamp = fixedCurrentDate.adding(days: -7).adding(seconds: -1)
+        let (sut, store) = makeSUT { fixedCurrentDate }
+        
+        sut.validateCache()
+        store.completeRetrieval(with: feed.local, timestamp: moreThanSevenDaysOldTimestamp)
+        
+        XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteCachedFeed])
     }
     
     // MARK: Helpers
