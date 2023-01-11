@@ -8,6 +8,8 @@
 
 import Foundation
 
+// NOT: CodableFeedStore classı ve testleri CoreData kullanılacağı için silindi. Fakat ileriye dönük örnek kod olması amacıyla tutuyorum.
+
 public class CodableFeedStore: FeedStore {
     
     private struct Cache: Codable {
