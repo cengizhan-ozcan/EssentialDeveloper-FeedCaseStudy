@@ -14,6 +14,7 @@
 		08DDC13A21BEA99E00F490ED /* LoadFeedFromRemoteUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DDC13921BEA99E00F490ED /* LoadFeedFromRemoteUseCaseTests.swift */; };
 		75308A0F297711260089A534 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75308A0E297711260089A534 /* FeedViewController.swift */; };
 		75308A1129773BC40089A534 /* FeedImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75308A1029773BC40089A534 /* FeedImageCell.swift */; };
+		75308A122977434E0089A534 /* SharedTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BB84302954F6D1001AAF78 /* SharedTestHelpers.swift */; };
 		753A28B0296F14A0003D27EE /* XCTestCase+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D83942294CAD9F00B7F6E6 /* XCTestCase+Extensions.swift */; };
 		753A28B1296F15AF003D27EE /* FeedCacheTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BB842E2954F660001AAF78 /* FeedCacheTestHelpers.swift */; };
 		753A28B2296F167A003D27EE /* SharedTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BB84302954F6D1001AAF78 /* SharedTestHelpers.swift */; };
@@ -700,6 +701,7 @@
 			files = (
 				7575388129733CAB0037E55A /* XCTestCase+Extensions.swift in Sources */,
 				75753878297339E20037E55A /* FeedViewControllerTests.swift in Sources */,
+				75308A122977434E0089A534 /* SharedTestHelpers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
