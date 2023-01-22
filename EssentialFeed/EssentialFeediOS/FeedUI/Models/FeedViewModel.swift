@@ -6,7 +6,7 @@
 //  Copyright © 2023 Essential Developer. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import EssentialFeed
 
 final class FeedViewModel {
