@@ -6,5 +6,5 @@
   Copyright © 2023 Essential Developer. All rights reserved.
 */
 
-"FEED_VIEW_TITLE" = "To Feed uou";
-"FEED_VIEW_CONNECTION_ERROR" = "";
+"FEED_VIEW_TITLE" = "Το Feed μου";
+"FEED_VIEW_CONNECTION_ERROR" = "Δεν ήταν δυνατή η σύνδεση στο διακομιστή";
