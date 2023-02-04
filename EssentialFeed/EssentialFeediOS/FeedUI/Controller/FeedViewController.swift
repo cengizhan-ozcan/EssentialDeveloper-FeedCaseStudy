@@ -16,7 +16,7 @@ final public class FeedViewController: UITableViewController, UITableViewDataSou
     
     var delegate: FeedViewControllerDelegate?
     
-    public let errorView = ErrorView()
+    @IBOutlet private(set) public weak var errorView: ErrorView!
     
     var tableModel = [FeedImageCellController]() {
         didSet {
