@@ -1,6 +1,6 @@
 //
 //  FeedImageDataLoader.swift
-//  EssentialFeediOS
+//  EssentialFeed
 //
 //  Created by Cengizhan Özcan on 22.01.2023.
 //  Copyright © 2023 Essential Developer. All rights reserved.
