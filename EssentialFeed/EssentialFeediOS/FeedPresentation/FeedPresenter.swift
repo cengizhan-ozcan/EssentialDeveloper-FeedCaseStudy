@@ -25,12 +25,10 @@ final class FeedPresenter {
     
     private let feedView: FeedView
     private let loadingView: FeedLoadingView
-    private let errorView: FeedErrorView
     
-    init(feedView: FeedView, loadingView: FeedLoadingView, errorView: FeedErrorView) {
+    init(feedView: FeedView, loadingView: FeedLoadingView) {
         self.feedView = feedView
         self.loadingView = loadingView
-        self.errorView = errorView
     }
     
     static var title: String {
@@ -42,7 +40,6 @@ final class FeedPresenter {
     }
     
     func didStartLoadingFeed() {
-        errorView.display(.noError)
         loadingView.display(FeedLoadingViewModel(isLoading: true))
     }
     
@@ -52,7 +49,6 @@ final class FeedPresenter {
     }
     
     func didFinishLoadingFeed(with error: Error) {
-        errorView.display(.error(message: feedLoadError))
         loadingView.display(FeedLoadingViewModel(isLoading: false))
     }
 }
