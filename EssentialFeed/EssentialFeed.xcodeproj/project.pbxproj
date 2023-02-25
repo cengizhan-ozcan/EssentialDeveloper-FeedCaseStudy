@@ -1538,7 +1538,7 @@
 				755384FB29AAAC9900CE5569 /* FeedStore2.xcdatamodel */,
 				7547F059296B40BE006C46F5 /* CoreDataFeedStore.xcdatamodel */,
 			);
-			currentVersion = 7547F059296B40BE006C46F5 /* CoreDataFeedStore.xcdatamodel */;
+			currentVersion = 755384FB29AAAC9900CE5569 /* FeedStore2.xcdatamodel */;
 			path = FeedStore.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
