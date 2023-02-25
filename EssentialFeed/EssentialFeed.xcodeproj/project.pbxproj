@@ -43,6 +43,8 @@
 		755384E829AA3BBD00CE5569 /* HTTPURLResponse+StatusCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755384E729AA3BBD00CE5569 /* HTTPURLResponse+StatusCode.swift */; };
 		755384EA29AA3C4600CE5569 /* URLProtocolStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755384E929AA3C4600CE5569 /* URLProtocolStub.swift */; };
 		755384EC29AA3E8E00CE5569 /* LocalFeedImageDataLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755384EB29AA3E8E00CE5569 /* LocalFeedImageDataLoaderTests.swift */; };
+		755384EE29AA689700CE5569 /* FeedImageDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755384ED29AA689700CE5569 /* FeedImageDataStore.swift */; };
+		755384F029AA68F600CE5569 /* LocalFeedImageDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755384EF29AA68F600CE5569 /* LocalFeedImageDataLoader.swift */; };
 		755BA11D298E7B7100847286 /* UIRefreshControl+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755BA11C298E7B7100847286 /* UIRefreshControl+Helpers.swift */; };
 		755BA11F298E7C4D00847286 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755BA11E298E7C4D00847286 /* ErrorView.swift */; };
 		755BA122298E99F000847286 /* FeedPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755BA121298E99F000847286 /* FeedPresenterTests.swift */; };
@@ -184,6 +186,8 @@
 		755384E729AA3BBD00CE5569 /* HTTPURLResponse+StatusCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTTPURLResponse+StatusCode.swift"; sourceTree = "<group>"; };
 		755384E929AA3C4600CE5569 /* URLProtocolStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProtocolStub.swift; sourceTree = "<group>"; };
 		755384EB29AA3E8E00CE5569 /* LocalFeedImageDataLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedImageDataLoaderTests.swift; sourceTree = "<group>"; };
+		755384ED29AA689700CE5569 /* FeedImageDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageDataStore.swift; sourceTree = "<group>"; };
+		755384EF29AA68F600CE5569 /* LocalFeedImageDataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedImageDataLoader.swift; sourceTree = "<group>"; };
 		755BA11C298E7B7100847286 /* UIRefreshControl+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIRefreshControl+Helpers.swift"; sourceTree = "<group>"; };
 		755BA11E298E7C4D00847286 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		755BA121298E99F000847286 /* FeedPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPresenterTests.swift; sourceTree = "<group>"; };
@@ -563,6 +567,8 @@
 				75BB842129524432001AAF78 /* FeedStore.swift */,
 				75BB842529524ED2001AAF78 /* LocalFeedImage.swift */,
 				75BB843229550742001AAF78 /* FeedCachePolicy.swift */,
+				755384ED29AA689700CE5569 /* FeedImageDataStore.swift */,
+				755384EF29AA68F600CE5569 /* LocalFeedImageDataLoader.swift */,
 			);
 			path = "Feed Cache";
 			sourceTree = "<group>";
@@ -847,6 +853,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				755384F029AA68F600CE5569 /* LocalFeedImageDataLoader.swift in Sources */,
 				755BA12F298EA6F300847286 /* FeedViewModel.swift in Sources */,
 				7547F05E296B694E006C46F5 /* CoreDataHelpers.swift in Sources */,
 				75D8393D294A66A600B7F6E6 /* FeedItemsMapper.swift in Sources */,
@@ -867,6 +874,7 @@
 				75D83945294CCE9900B7F6E6 /* URLSessionHTTPClient.swift in Sources */,
 				755384E529AA345300CE5569 /* RemoteFeedImageDataLoader.swift in Sources */,
 				7547F060296B699F006C46F5 /* ManagedCache.swift in Sources */,
+				755384EE29AA689700CE5569 /* FeedImageDataStore.swift in Sources */,
 				7547F04C296B0FC2006C46F5 /* CoreDataFeedStore.swift in Sources */,
 				755BA138298EBE0B00847286 /* FeedImageDataLoader.swift in Sources */,
 				755384E829AA3BBD00CE5569 /* HTTPURLResponse+StatusCode.swift in Sources */,
