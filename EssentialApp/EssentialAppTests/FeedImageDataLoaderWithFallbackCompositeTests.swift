@@ -26,9 +26,7 @@ class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
     func test_loadData_deliversPrimaryFeedImageOnPrimarySuccess() {
         let url = URL(string: "http://any-url.com")!
         let data = anyData()
-        let primaryImageDataLoader = ImageDataLoaderStub(result: .success(data))
-        let fallbackImageDataLoader = ImageDataLoaderStub(result: .success(data))
-        let sut = FeedImageDataLoaderWithFallbackComposite(primary: primaryImageDataLoader, fallback: fallbackImageDataLoader)
+        let sut = makeSUT(primaryResult: .success(data), fallbackResult: .success(data))
         
         let exp = expectation(description: "Wait for load completion")
         _ = sut.loadImageData(from: url) { result in
@@ -44,6 +42,14 @@ class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
     }
     
     // MARK: - Helpers
+    
+    private func makeSUT(primaryResult: FeedImageDataLoader.Result, fallbackResult: FeedImageDataLoader.Result,
+                         file: StaticString = #file, line: UInt = #line) -> FeedImageDataLoaderWithFallbackComposite {
+        let primaryImageDataLoader = ImageDataLoaderStub(result: primaryResult)
+        let fallbackImageDataLoader = ImageDataLoaderStub(result: fallbackResult)
+        let sut = FeedImageDataLoaderWithFallbackComposite(primary: primaryImageDataLoader, fallback: fallbackImageDataLoader)
+        return sut
+    }
     
     private func anyData() -> Data {
         return Data("any data".utf8)
