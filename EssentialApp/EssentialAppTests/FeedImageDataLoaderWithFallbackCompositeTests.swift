@@ -10,22 +10,55 @@ import EssentialFeed
 
 class FeedImageDataLoaderWithFallbackComposite: FeedImageDataLoader {
     
+    private class TaskWrapper: FeedImageDataLoaderTask {
+        
+        var completion: ((FeedImageDataLoader.Result) -> Void)?
+        
+        init(completion: (@escaping (FeedImageDataLoader.Result) -> Void)) {
+            self.completion = completion
+        }
+        
+        func complete(with result: FeedImageDataLoader.Result) {
+            completion?(result)
+        }
+        
+        func cancel() {
+            completion = nil
+        }
+    }
+    
     let primary: FeedImageDataLoader
+    let fallback: FeedImageDataLoader
     
     init(primary: FeedImageDataLoader, fallback: FeedImageDataLoader) {
         self.primary = primary
+        self.fallback = fallback
     }
     
     func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) -> FeedImageDataLoaderTask {
-        return primary.loadImageData(from: url, completion: completion)
+        return primary.loadImageData(from: url) { result in
+            switch result {
+            case .success:
+                completion(result)
+            case .failure:
+                _ = self.fallback.loadImageData(from: url, completion: completion)
+            }
+        }
     }
 }
 
 class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
     
-    func test_loadData_deliversPrimaryFeedImageOnPrimarySuccess() {
+    func test_loadImageData_deliversPrimaryFeedImageOnPrimarySuccess() {
         let data = anyData()
         let sut = makeSUT(primaryResult: .success(data), fallbackResult: .success(data))
+        
+        expect(sut, toCompleteWith: .success(data))
+    }
+    
+    func test_loadImageData_deliverFallbackFeedImageOnPrimaryError() {
+        let data = anyData()
+        let sut = makeSUT(primaryResult: .failure(anyError()), fallbackResult: .success(data))
         
         expect(sut, toCompleteWith: .success(data))
     }
