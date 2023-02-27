@@ -96,6 +96,14 @@ class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
        XCTAssertEqual(fallbackLoader.loadedURLs, [url], "Expected to cancel URL in the fallback loader")
     }
     
+    func test_loadImageData_deliversPrimaryDataOnPrimarySuccess() {
+        let data = anyData()
+        let (sut, primaryLoader, _) = makeSUT()
+
+        expect(sut, toCompleteWith: .success(data)) {
+            primaryLoader.complete(with: data)
+        }
+    }
     
     // MARK: - Helpers
     
@@ -110,7 +118,7 @@ class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
     }
     
     private func expect(_ sut: FeedImageDataLoaderWithFallbackComposite, toCompleteWith expectedResult: FeedImageDataLoader.Result,
-                        file: StaticString = #file, line: UInt = #line) {
+                        when action: () -> Void, file: StaticString = #file, line: UInt = #line) {
         let url = URL(string: "http://any-url.com")!
         let exp = expectation(description: "Wait for load completion")
         _ = sut.loadImageData(from: url) { receivedResult in
@@ -124,6 +132,7 @@ class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
             }
             exp.fulfill()
         }
+        action()
         wait(for: [exp], timeout: 1.0)
     }
     
@@ -172,6 +181,10 @@ class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
             return Task { [weak self] in
                 self?.cancelledURLs.append(url)
             }
+        }
+        
+        func complete(with data: Data, at index: Int = 0) {
+            messages[index].completion(.success(data))
         }
         
         func complete(with error: NSError, at index: Int = 0) {
