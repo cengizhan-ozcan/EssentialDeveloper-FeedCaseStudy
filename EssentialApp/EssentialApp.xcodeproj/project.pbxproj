@@ -23,6 +23,7 @@
 		7561D45829AE5A8D00D2C78A /* FeedImageDataLoaderWithFallbackComposite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7561D45729AE5A8D00D2C78A /* FeedImageDataLoaderWithFallbackComposite.swift */; };
 		7561D45B29AE5B1E00D2C78A /* XCTestCase+MemoryLeak.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7561D45A29AE5B1E00D2C78A /* XCTestCase+MemoryLeak.swift */; };
 		7561D45D29AE5B6400D2C78A /* SharedTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7561D45C29AE5B6400D2C78A /* SharedTestHelpers.swift */; };
+		7561D45F29AE634300D2C78A /* FeedLoaderCacheDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7561D45E29AE634300D2C78A /* FeedLoaderCacheDecorator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 		7561D45729AE5A8D00D2C78A /* FeedImageDataLoaderWithFallbackComposite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageDataLoaderWithFallbackComposite.swift; sourceTree = "<group>"; };
 		7561D45A29AE5B1E00D2C78A /* XCTestCase+MemoryLeak.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeak.swift"; sourceTree = "<group>"; };
 		7561D45C29AE5B6400D2C78A /* SharedTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTestHelpers.swift; sourceTree = "<group>"; };
+		7561D45E29AE634300D2C78A /* FeedLoaderCacheDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoaderCacheDecorator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +133,7 @@
 				7561D45929AE5B0900D2C78A /* Helpers */,
 				75302B1A29ABB8BB00E0623E /* FeedLoaderWithFallbackCompositeTests.swift */,
 				75302B1E29ABC4A300E0623E /* FeedImageDataLoaderWithFallbackCompositeTests.swift */,
+				7561D45E29AE634300D2C78A /* FeedLoaderCacheDecorator.swift */,
 			);
 			path = EssentialAppTests;
 			sourceTree = "<group>";
@@ -271,6 +274,7 @@
 				7561D45D29AE5B6400D2C78A /* SharedTestHelpers.swift in Sources */,
 				75302B1F29ABC4A300E0623E /* FeedImageDataLoaderWithFallbackCompositeTests.swift in Sources */,
 				7561D45B29AE5B1E00D2C78A /* XCTestCase+MemoryLeak.swift in Sources */,
+				7561D45F29AE634300D2C78A /* FeedLoaderCacheDecorator.swift in Sources */,
 				75302B1B29ABB8BB00E0623E /* FeedLoaderWithFallbackCompositeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

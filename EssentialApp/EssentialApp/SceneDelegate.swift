@@ -35,4 +35,3 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = feedViewController
     }
 }
-
