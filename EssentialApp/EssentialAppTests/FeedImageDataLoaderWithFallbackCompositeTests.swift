@@ -94,9 +94,10 @@ class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
     
     // MARK: - Helpers
     
-    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (FeedImageDataLoaderWithFallbackComposite, ImageDataLoaderSpy, ImageDataLoaderSpy) {
-        let primaryImageDataLoader = ImageDataLoaderSpy()
-        let fallbackImageDataLoader = ImageDataLoaderSpy()
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (FeedImageDataLoaderWithFallbackComposite,
+                                                                             FeedImageDataLoaderSpy, FeedImageDataLoaderSpy) {
+        let primaryImageDataLoader = FeedImageDataLoaderSpy()
+        let fallbackImageDataLoader = FeedImageDataLoaderSpy()
         let sut = FeedImageDataLoaderWithFallbackComposite(primary: primaryImageDataLoader, fallback: fallbackImageDataLoader)
         trackForMemoryLeaks(primaryImageDataLoader, file: file, line: line)
         trackForMemoryLeaks(fallbackImageDataLoader, file: file, line: line)
@@ -121,43 +122,5 @@ class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
         }
         action()
         wait(for: [exp], timeout: 1.0)
-    }
-    
-    private class ImageDataLoaderSpy: FeedImageDataLoader {
-        
-        private class Task: FeedImageDataLoaderTask {
-            
-            var completion: () -> Void
-            
-            init(completion: @escaping () -> Void) {
-                self.completion = completion
-            }
-            
-            func cancel() {
-                completion()
-            }
-        }
-        
-        private var messages = [(url: URL, completion: (FeedImageDataLoader.Result) -> Void)]()
-        var cancelledURLs = [URL]()
-        
-        var loadedURLs: [URL] {
-            return messages.map { $0.url }
-        }
-        
-        func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) -> FeedImageDataLoaderTask {
-            messages.append((url, completion))
-            return Task { [weak self] in
-                self?.cancelledURLs.append(url)
-            }
-        }
-        
-        func complete(with data: Data, at index: Int = 0) {
-            messages[index].completion(.success(data))
-        }
-        
-        func complete(with error: NSError, at index: Int = 0) {
-            messages[index].completion(.failure(error))
-        }
     }
 }
