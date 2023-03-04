@@ -52,36 +52,18 @@ class FeedImageDataCacheDecoratorTests: XCTestCase {
         let (sut, loader) = makeSUT()
         let imageData = anyData()
         
-        let exp = expectation(description: "Wait for load completion")
-        _ = sut.loadImageData(from: anyURL(), completion: { result in
-            switch result {
-            case let .success(data):
-                XCTAssertEqual(imageData, data)
-            case .failure:
-                XCTFail("Expected to load with success")
-            }
-            exp.fulfill()
-        })
-        loader.complete(with: imageData)
-        wait(for: [exp], timeout: 1.0)
+        expect(sut, toCompleteWith: .success(imageData)) {
+            loader.complete(with: imageData)
+        }
     }
     
     func test_loadImageData_deliversErrorOnLoaderFailure() {
         let (sut, loader) = makeSUT()
         let error = anyError()
         
-        let exp = expectation(description: "Wait for load completion")
-        _ = sut.loadImageData(from: anyURL(), completion: { result in
-            switch result {
-            case .success:
-                XCTFail("Expected to load with error")
-            case let .failure(receivedError as NSError):
-                XCTAssertEqual(error, receivedError)
-            }
-            exp.fulfill()
-        })
-        loader.complete(with: error)
-        wait(for: [exp], timeout: 1.0)
+        expect(sut, toCompleteWith: .failure(error)) {
+            loader.complete(with: error)
+        }
     }
     
     // MARK: - Helpers
@@ -92,6 +74,24 @@ class FeedImageDataCacheDecoratorTests: XCTestCase {
         trackForMemoryLeaks(loader, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)
         return (sut, loader)
+    }
+    
+    func expect(_ sut: FeedImageDataCacheDecorator, toCompleteWith expectedResult: FeedImageDataLoader.Result,
+                when action: () -> Void, file: StaticString = #file, line: UInt = #line) {
+        let exp = expectation(description: "Wait for load completion")
+        _ = sut.loadImageData(from: anyURL()) { receivedResult in
+            switch (receivedResult, expectedResult) {
+            case let (.success(receivedFeedImageData), .success(expectedFeedImageData)):
+                XCTAssertEqual(receivedFeedImageData, expectedFeedImageData, file: file, line: line)
+            case (.failure, .failure):
+                break
+            default:
+                XCTFail("Expected \(expectedResult), got \(receivedResult) instead", file: file, line: line)
+            }
+            exp.fulfill()
+        }
+        action()
+        wait(for: [exp], timeout: 1.0)
     }
     
     private class LoaderSpy: FeedImageDataLoader {
