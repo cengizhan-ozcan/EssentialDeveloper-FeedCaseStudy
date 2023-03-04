@@ -24,23 +24,29 @@ class FeedImageDataCacheDecorator: FeedImageDataLoader {
 class FeedImageDataCacheDecoratorTests: XCTestCase {
     
     func test_init_doesNotLoadImageData() {
-        let loader = LoaderSpy()
-        let _ = FeedImageDataCacheDecorator(decoratee: loader)
+        let (_, loader) = makeSUT()
         
         XCTAssertTrue(loader.loadedURLs.isEmpty, "Expected no loaded URLs")
     }
     
     func test_loadImageData_loadsFromLoader() {
-        let loader = LoaderSpy()
-        let sut = FeedImageDataCacheDecorator(decoratee: loader)
+        let (sut, loader) = makeSUT()
         let url = anyURL()
         
-        _ = sut.loadImageData(from: anyURL()) { _ in }
+        _ = sut.loadImageData(from: url) { _ in }
         
         XCTAssertEqual(loader.loadedURLs, [url], "Expected to load URL from loader")
     }
     
     // MARK: - Helpers
+    
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: FeedImageDataCacheDecorator, loader: LoaderSpy) {
+        let loader = LoaderSpy()
+        let sut = FeedImageDataCacheDecorator(decoratee: loader)
+        trackForMemoryLeaks(loader, file: file, line: line)
+        trackForMemoryLeaks(sut, file: file, line: line)
+        return (sut, loader)
+    }
     
     private class LoaderSpy: FeedImageDataLoader {
         
