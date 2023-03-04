@@ -48,6 +48,24 @@ class FeedImageDataCacheDecoratorTests: XCTestCase {
         XCTAssertEqual(loader.cancelledURLs, [url], "Expected to cancelled URL from loader")
     }
     
+    func test_loadImageData_deliversDataOnLoaderSuccess() {
+        let (sut, loader) = makeSUT()
+        let imageData = anyData()
+        
+        let exp = expectation(description: "Wait for load completion")
+        _ = sut.loadImageData(from: anyURL(), completion: { result in
+            switch result {
+            case let .success(data):
+                XCTAssertEqual(imageData, data)
+            case .failure:
+                XCTFail("Expected to load with success")
+            }
+            exp.fulfill()
+        })
+        loader.complete(with: imageData)
+        wait(for: [exp], timeout: 1.0)
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: FeedImageDataCacheDecorator, loader: LoaderSpy) {
@@ -86,6 +104,10 @@ class FeedImageDataCacheDecoratorTests: XCTestCase {
             return Task { [weak self] in
                 self?.cancelledURLs.append(url)
             }
+        }
+        
+        func complete(with data: Data, at index: Int = 0) {
+            messages[index].completion(.success(data))
         }
     }
 }
