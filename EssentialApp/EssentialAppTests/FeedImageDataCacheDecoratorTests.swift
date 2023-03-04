@@ -66,6 +66,24 @@ class FeedImageDataCacheDecoratorTests: XCTestCase {
         wait(for: [exp], timeout: 1.0)
     }
     
+    func test_loadImageData_deliversErrorOnLoaderFailure() {
+        let (sut, loader) = makeSUT()
+        let error = anyError()
+        
+        let exp = expectation(description: "Wait for load completion")
+        _ = sut.loadImageData(from: anyURL(), completion: { result in
+            switch result {
+            case .success:
+                XCTFail("Expected to load with error")
+            case let .failure(receivedError as NSError):
+                XCTAssertEqual(error, receivedError)
+            }
+            exp.fulfill()
+        })
+        loader.complete(with: error)
+        wait(for: [exp], timeout: 1.0)
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: FeedImageDataCacheDecorator, loader: LoaderSpy) {
@@ -108,6 +126,10 @@ class FeedImageDataCacheDecoratorTests: XCTestCase {
         
         func complete(with data: Data, at index: Int = 0) {
             messages[index].completion(.success(data))
+        }
+        
+        func complete(with error: NSError, at index: Int = 0) {
+            messages[index].completion(.failure(error))
         }
     }
 }
