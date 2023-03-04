@@ -30,6 +30,7 @@
 		7561D46929B36CC800D2C78A /* FeedImageDataCacheDecoratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7561D46829B36CC800D2C78A /* FeedImageDataCacheDecoratorTests.swift */; };
 		7561D46B29B3A88900D2C78A /* FeedImageDataLoaderSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7561D46A29B3A88900D2C78A /* FeedImageDataLoaderSpy.swift */; };
 		7561D46D29B3A93B00D2C78A /* XCTestCase+FeedImageDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7561D46C29B3A93B00D2C78A /* XCTestCase+FeedImageDataLoader.swift */; };
+		7561D47129B3AFEC00D2C78A /* FeedImageDataCacheDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7561D47029B3AFEC00D2C78A /* FeedImageDataCacheDecorator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +83,7 @@
 		7561D46829B36CC800D2C78A /* FeedImageDataCacheDecoratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageDataCacheDecoratorTests.swift; sourceTree = "<group>"; };
 		7561D46A29B3A88900D2C78A /* FeedImageDataLoaderSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageDataLoaderSpy.swift; sourceTree = "<group>"; };
 		7561D46C29B3A93B00D2C78A /* XCTestCase+FeedImageDataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+FeedImageDataLoader.swift"; sourceTree = "<group>"; };
+		7561D47029B3AFEC00D2C78A /* FeedImageDataCacheDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageDataCacheDecorator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +134,7 @@
 				75302B1C29ABC41900E0623E /* FeedLoaderWithFallbackComposite.swift */,
 				7561D45729AE5A8D00D2C78A /* FeedImageDataLoaderWithFallbackComposite.swift */,
 				7561D46629B3688D00D2C78A /* FeedLoaderCacheDecorator.swift */,
+				7561D47029B3AFEC00D2C78A /* FeedImageDataCacheDecorator.swift */,
 				75302AE829ABAEA900E0623E /* Main.storyboard */,
 				75302AEB29ABAEAA00E0623E /* Assets.xcassets */,
 				75302AED29ABAEAA00E0623E /* LaunchScreen.storyboard */,
@@ -277,6 +280,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7561D47129B3AFEC00D2C78A /* FeedImageDataCacheDecorator.swift in Sources */,
 				75302AE729ABAEA900E0623E /* ViewController.swift in Sources */,
 				75302AE329ABAEA900E0623E /* AppDelegate.swift in Sources */,
 				75302B1D29ABC41900E0623E /* FeedLoaderWithFallbackComposite.swift in Sources */,
