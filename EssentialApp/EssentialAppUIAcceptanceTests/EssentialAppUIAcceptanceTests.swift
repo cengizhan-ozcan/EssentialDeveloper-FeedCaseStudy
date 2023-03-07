@@ -9,6 +9,7 @@ import XCTest
 
 final class EssentialAppUIAcceptanceTests: XCTestCase {
 
+    // Burası silinebilir. Silinmesi halinde productionda test configurasyonları kalmayacak. Örnek olsun diye tutuyorum. FeedAcceptenceTest ile UI test yapmaya gerek kalmıyor.
     func test_onLaunch_displaysRemoteFeedWhenCustomerHasConnectivity() {
         let app = XCUIApplication()
         app.launchArguments = ["-reset", "-connectivity", "online"]
