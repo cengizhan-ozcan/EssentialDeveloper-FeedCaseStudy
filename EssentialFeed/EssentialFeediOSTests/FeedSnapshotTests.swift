@@ -145,6 +145,7 @@ struct SnapshotConfiguration {
     let layoutMargins: UIEdgeInsets
     let traitCollection: UITraitCollection
     
+    // https://developer.apple.com/design/human-interface-guidelines/foundations/layout/
     static func iPhone8(style: UIUserInterfaceStyle) -> SnapshotConfiguration {
         return SnapshotConfiguration(size: CGSize(width: 375, height: 667),
                                      safeAreaInsets: UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0),
