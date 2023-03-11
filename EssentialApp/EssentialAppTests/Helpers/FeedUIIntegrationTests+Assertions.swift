@@ -35,6 +35,8 @@ extension FeedUIIntegrationTests {
     
     func assertThat(_ sut: FeedViewController, isRendering images: [FeedImage],
                             file: StaticString = #file, line: UInt = #line) {
+        sut.tableView.layoutIfNeeded()
+        RunLoop.main.run(until: Date())
         guard sut.numberOfRenderedFeedImageViews() == images.count else {
             return XCTFail("Expected \(images.count) images, got \(sut.numberOfRenderedFeedImageViews()) instead", file: file, line: line)
         }
