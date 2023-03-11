@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import EssentialFeedCache
 
 // NOT: CodableFeedStore classı ve testleri CoreData kullanılacağı için silindi. Fakat ileriye dönük örnek kod olması amacıyla tutuyorum.
 

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import EssentialFeedCache
 
 extension CoreDataFeedStore: FeedImageDataStore {
     

@@ -12,6 +12,7 @@ import EssentialFeedAPI
 import EssentialFeedCache
 import EssentialFeediOS
 import EssentialFeedAPIInfrastructure
+import EssentialFeedCacheInfrastructure
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
