@@ -8,6 +8,7 @@
 
 import XCTest
 import EssentialFeed
+import EssentialFeedCache
 
 class ValidateFeedCacheUseCaseTests: XCTestCase {
     
