@@ -6,9 +6,9 @@
 //  Copyright © 2023 Essential Developer. All rights reserved.
 //
 
-import Foundation
 import XCTest
 import EssentialFeed
+import EssentialFeedPresentation
 
 extension FeedUIIntegrationTests {
     

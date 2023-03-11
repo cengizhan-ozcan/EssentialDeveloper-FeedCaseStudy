@@ -9,6 +9,7 @@
 import UIKit
 import EssentialFeed
 import EssentialFeediOS
+import EssentialFeedPresentation
 
 
 final class FeedViewAdapter: FeedView {
