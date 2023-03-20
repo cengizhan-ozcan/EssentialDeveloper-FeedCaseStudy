@@ -4,6 +4,7 @@
 
 import Foundation
 import EssentialFeed
+import SharedAPI
 
 public final class RemoteFeedLoader: FeedLoader {
     

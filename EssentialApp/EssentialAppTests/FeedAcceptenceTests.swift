@@ -10,6 +10,7 @@ import EssentialFeed
 import EssentialFeedAPI
 import EssentialFeedCache
 import EssentialFeediOS
+import SharedAPI
 @testable import EssentialApp
 
 class FeedAcceptenceTests: XCTestCase {

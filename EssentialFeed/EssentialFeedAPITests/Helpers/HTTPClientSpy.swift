@@ -8,6 +8,7 @@
 
 import Foundation
 import EssentialFeedAPI
+import SharedAPI
 
 class HTTPClientSpy: HTTPClient {
     

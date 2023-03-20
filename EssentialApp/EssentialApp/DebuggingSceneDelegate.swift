@@ -9,6 +9,7 @@
 import UIKit
 import EssentialFeed
 import EssentialFeedAPI
+import SharedAPI
 
 class DebuggingSceneDelegate: SceneDelegate {
     

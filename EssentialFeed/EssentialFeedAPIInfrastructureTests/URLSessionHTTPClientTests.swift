@@ -10,6 +10,7 @@ import XCTest
 import EssentialFeed
 import EssentialFeedAPI
 import EssentialFeedAPIInfrastructure
+import SharedAPI
 
 class URLSessionHTTPClientTests: XCTestCase {
     

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import EssentialFeedAPI
+import SharedAPI
 
 public final class URLSessionHTTPClient: HTTPClient {
     
@@ -28,7 +28,7 @@ public final class URLSessionHTTPClient: HTTPClient {
         self.session = session
     }
         
-    public func get(from url: URL, completion: @escaping (HTTPClient.Result) -> Void) -> HTTPClientTask {
+    public func get(from   url: URL, completion: @escaping (HTTPClient.Result) -> Void) -> HTTPClientTask {
         let task = session.dataTask(with: url) { data, response, error in
             completion(Result {
                 if let error = error {

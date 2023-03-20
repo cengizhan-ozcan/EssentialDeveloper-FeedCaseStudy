@@ -8,6 +8,7 @@
 
 import Foundation
 import EssentialFeed
+import SharedAPI
 
 public final class RemoteFeedImageDataLoader: FeedImageDataLoader {
     
