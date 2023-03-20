@@ -8,7 +8,7 @@
 
 import XCTest
 import EssentialFeed
-import EssentialFeedAPI
+import EssentialImageCommentsAPI
 
 class LoadImageCommentsFromRemoteUseCaseTests: XCTestCase {
     
