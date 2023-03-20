@@ -116,8 +116,6 @@
 		75559AAE29C8C46500CF1FC4 /* SharedTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BB84302954F6D1001AAF78 /* SharedTestHelpers.swift */; };
 		75559AAF29C8C46500CF1FC4 /* XCTestCase+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D83942294CAD9F00B7F6E6 /* XCTestCase+Extensions.swift */; };
 		75559AB129C8C49600CF1FC4 /* RemoteLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75559AB029C8C49600CF1FC4 /* RemoteLoader.swift */; };
-		75559AB229C8C4D900CF1FC4 /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 080EDEF121B6DA7E00813479 /* EssentialFeed.framework */; };
-		75559AB329C8C4D900CF1FC4 /* EssentialFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 080EDEF121B6DA7E00813479 /* EssentialFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		755BA11D298E7B7100847286 /* UIRefreshControl+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755BA11C298E7B7100847286 /* UIRefreshControl+Helpers.swift */; };
 		755BA11F298E7C4D00847286 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755BA11E298E7C4D00847286 /* ErrorView.swift */; };
 		755BA138298EBE0B00847286 /* FeedImageDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753FF22B297D5F1E00D52B03 /* FeedImageDataLoader.swift */; };
@@ -266,13 +264,6 @@
 			remoteGlobalIDString = 75559A5E29C8BA3200CF1FC4;
 			remoteInfo = SharedAPI;
 		};
-		75559AB429C8C4D900CF1FC4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 080EDEE821B6DA7E00813479 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 080EDEF021B6DA7E00813479;
-			remoteInfo = EssentialFeed;
-		};
 		75737C6B29731A5200C04ECD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 080EDEE821B6DA7E00813479 /* Project object */;
@@ -354,17 +345,6 @@
 			files = (
 				75559AA429C8BE1900CF1FC4 /* SharedAPI.framework in Embed Frameworks */,
 				75559A9F29C8BE1500CF1FC4 /* EssentialFeed.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		75559AB629C8C4D900CF1FC4 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				75559AB329C8C4D900CF1FC4 /* EssentialFeed.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -594,7 +574,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				75559AB229C8C4D900CF1FC4 /* EssentialFeed.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1363,12 +1342,10 @@
 				75559A5B29C8BA3200CF1FC4 /* Sources */,
 				75559A5C29C8BA3200CF1FC4 /* Frameworks */,
 				75559A5D29C8BA3200CF1FC4 /* Resources */,
-				75559AB629C8C4D900CF1FC4 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				75559AB529C8C4D900CF1FC4 /* PBXTargetDependency */,
 			);
 			name = SharedAPI;
 			productName = SharedAPI;
@@ -2086,11 +2063,6 @@
 			isa = PBXTargetDependency;
 			target = 75559A5E29C8BA3200CF1FC4 /* SharedAPI */;
 			targetProxy = 75559AA529C8BE1900CF1FC4 /* PBXContainerItemProxy */;
-		};
-		75559AB529C8C4D900CF1FC4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 080EDEF021B6DA7E00813479 /* EssentialFeed */;
-			targetProxy = 75559AB429C8C4D900CF1FC4 /* PBXContainerItemProxy */;
 		};
 		75737C6C29731A5200C04ECD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
