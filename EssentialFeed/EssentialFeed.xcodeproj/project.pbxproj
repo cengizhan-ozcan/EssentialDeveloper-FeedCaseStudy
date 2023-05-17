@@ -130,7 +130,6 @@
 		75E4B5722A13F3D500531AA2 /* RemoteFeedImageDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E4B5712A13F3D500531AA2 /* RemoteFeedImageDataLoader.swift */; };
 		75E4B5742A13F3E400531AA2 /* LoadFeedImageDataFromRemoteUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E4B5732A13F3E400531AA2 /* LoadFeedImageDataFromRemoteUseCaseTests.swift */; };
 		75E4B5822A152FAC00531AA2 /* SharedPresentation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75E4B57A2A152FAC00531AA2 /* SharedPresentation.framework */; };
-		75E4B5882A152FAC00531AA2 /* SharedPresentation.h in Headers */ = {isa = PBXBuildFile; fileRef = 75E4B57C2A152FAC00531AA2 /* SharedPresentation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		75E4B5902A152FD700531AA2 /* LoadResourcePresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E4B58F2A152FD700531AA2 /* LoadResourcePresenterTests.swift */; };
 		75E4B5922A15307800531AA2 /* XCTestCase+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D83942294CAD9F00B7F6E6 /* XCTestCase+Extensions.swift */; };
 		75E4B5932A15308D00531AA2 /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 080EDEF121B6DA7E00813479 /* EssentialFeed.framework */; };
@@ -522,7 +521,6 @@
 		75E4B5712A13F3D500531AA2 /* RemoteFeedImageDataLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteFeedImageDataLoader.swift; sourceTree = "<group>"; };
 		75E4B5732A13F3E400531AA2 /* LoadFeedImageDataFromRemoteUseCaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadFeedImageDataFromRemoteUseCaseTests.swift; sourceTree = "<group>"; };
 		75E4B57A2A152FAC00531AA2 /* SharedPresentation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SharedPresentation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		75E4B57C2A152FAC00531AA2 /* SharedPresentation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SharedPresentation.h; sourceTree = "<group>"; };
 		75E4B5812A152FAC00531AA2 /* SharedPresentationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SharedPresentationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		75E4B58F2A152FD700531AA2 /* LoadResourcePresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadResourcePresenterTests.swift; sourceTree = "<group>"; };
 		75E4B59D2A1530F100531AA2 /* LoadResourcePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadResourcePresenter.swift; sourceTree = "<group>"; };
@@ -1107,7 +1105,6 @@
 		75E4B57B2A152FAC00531AA2 /* SharedPresentation */ = {
 			isa = PBXGroup;
 			children = (
-				75E4B57C2A152FAC00531AA2 /* SharedPresentation.h */,
 				75E4B59D2A1530F100531AA2 /* LoadResourcePresenter.swift */,
 			);
 			path = SharedPresentation;
@@ -1191,7 +1188,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				75E4B5882A152FAC00531AA2 /* SharedPresentation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
