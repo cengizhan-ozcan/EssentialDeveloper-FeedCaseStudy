@@ -10,6 +10,7 @@ import UIKit
 import EssentialFeed
 import EssentialFeediOS
 import EssentialFeedPresentation
+import SharedPresentation
 
 public final class FeedUIComposer {
     
@@ -20,10 +21,11 @@ public final class FeedUIComposer {
         
         let feedController = makeFeedViewController(delegate: presentationAdapter, title: FeedPresenter.title)
         
-        presentationAdapter.presenter = FeedPresenter(feedView: FeedViewAdapter(controller: feedController,
-                                                                                imageLoader: MainQueueDispatchDecorator(decoratee: imageLoader)),
-                                                      loadingView: WeakRefVirtualProxy(feedController),
-                                                      errorView: WeakRefVirtualProxy(feedController))
+        presentationAdapter.presenter = LoadResourcePresenter(resourceView: FeedViewAdapter(controller: feedController,
+                                                                                            imageLoader: MainQueueDispatchDecorator(decoratee: imageLoader)),
+                                                              loadingView: WeakRefVirtualProxy(feedController),
+                                                              errorView: WeakRefVirtualProxy(feedController),
+                                                              mapper: FeedPresenter.map)
         return feedController
     }
     

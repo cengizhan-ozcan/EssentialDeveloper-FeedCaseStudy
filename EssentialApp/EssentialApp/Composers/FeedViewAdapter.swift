@@ -10,9 +10,9 @@ import UIKit
 import EssentialFeed
 import EssentialFeediOS
 import EssentialFeedPresentation
+import SharedPresentation
 
-
-final class FeedViewAdapter: FeedView {
+final class FeedViewAdapter: ResourceView {
     
     private weak var controller: FeedViewController?
     private let imageLoader: FeedImageDataLoader
