@@ -18,7 +18,7 @@ class FeedPresenterTests: XCTestCase {
     }
     
     func test_map_createsViewModel() {
-        let feed = uniqueImageFeed().models
+        let feed = [FeedImage(id: UUID(), description: "any", location: "any", url: anyURL())]
         
         let viewModel = FeedPresenter.map(feed)
         
@@ -41,7 +41,7 @@ class FeedPresenterTests: XCTestCase {
     
     func test_didFinishLoadingFeed_displaysFeedAndStopsLoading() {
         let (sut, view) = makeSUT()
-        let feed = uniqueImageFeed().models
+        let feed = [FeedImage(id: UUID(), description: "any", location: "any", url: anyURL())]
 
         sut.didFinishLoadingFeed(with: feed)
         

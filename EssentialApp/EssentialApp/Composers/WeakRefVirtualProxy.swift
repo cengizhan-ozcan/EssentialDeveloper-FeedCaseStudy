@@ -10,6 +10,7 @@ import UIKit
 import EssentialFeed
 import EssentialFeediOS
 import EssentialFeedPresentation
+import SharedPresentation
 
 final class WeakRefVirtualProxy<T: AnyObject> {
     

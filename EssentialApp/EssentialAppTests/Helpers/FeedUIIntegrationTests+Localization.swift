@@ -9,6 +9,7 @@
 import XCTest
 import EssentialFeed
 import EssentialFeedPresentation
+import SharedPresentation
 
 extension FeedUIIntegrationTests {
     

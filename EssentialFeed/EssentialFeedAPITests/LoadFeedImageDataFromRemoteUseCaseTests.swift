@@ -9,6 +9,7 @@
 import XCTest
 import EssentialFeed
 import EssentialFeedAPI
+import SharedAPI
 
 class RemoteFeedImageDataLoaderTests: XCTestCase {
     

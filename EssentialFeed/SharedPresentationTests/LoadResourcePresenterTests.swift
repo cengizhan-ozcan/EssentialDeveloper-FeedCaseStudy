@@ -8,7 +8,7 @@
 
 import XCTest
 import EssentialFeed
-import EssentialFeedPresentation
+import SharedPresentation
 
 class LoadResourcePresenterTests: XCTestCase {
     

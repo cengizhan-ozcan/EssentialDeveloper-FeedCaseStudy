@@ -8,8 +8,7 @@
 
 import XCTest
 import EssentialFeed
-import EssentialFeedPresentation
-
+import SharedPresentation
 
 class SharedLocalizationTests: XCTestCase {
 

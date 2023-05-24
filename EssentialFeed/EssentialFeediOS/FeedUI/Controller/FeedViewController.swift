@@ -8,6 +8,7 @@
 
 import UIKit
 import EssentialFeedPresentation
+import SharedPresentation
 
 public protocol FeedViewControllerDelegate {
     func didRequestFeedRefresh()
