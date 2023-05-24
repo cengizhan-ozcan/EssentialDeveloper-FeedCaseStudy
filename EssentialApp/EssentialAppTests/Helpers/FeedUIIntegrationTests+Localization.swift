@@ -17,7 +17,7 @@ extension FeedUIIntegrationTests {
     }
     
     var loadError: String {
-        LoadResourcePresenter<Any, DummyView>.feedLoadError
+        LoadResourcePresenter<Any, DummyView>.loadError
     }
     
     var feedTitle: String {
