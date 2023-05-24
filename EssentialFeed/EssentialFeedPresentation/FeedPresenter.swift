@@ -32,12 +32,8 @@ public final class FeedPresenter {
     }
     
     private var feedLoadError: String {
-        return NSLocalizedString("GENERIC_CONNECTION_ERROR", tableName: "Shared", bundle: Bundle(for: LoadResourcePresenter<Any, DummyView>.self),
+        return NSLocalizedString("GENERIC_CONNECTION_ERROR", tableName: "Shared", bundle: Bundle(for: Resource.self),
                                  comment: "Error message displayed when we can't load the resource from the server")
-    }
-    
-    class DummyView: ResourceView {
-        func display(_ viewModel: Any) {}
     }
     
     public func didStartLoadingFeed() {

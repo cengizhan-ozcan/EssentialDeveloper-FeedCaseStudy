@@ -149,6 +149,7 @@
 		7561D49429B7A5E700D2C78A /* UIControl+TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+TestHelpers.swift"; sourceTree = "<group>"; };
 		7561D4A429B7BEB200D2C78A /* FeedUIIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedUIIntegrationTests.swift; sourceTree = "<group>"; };
 		7561D4A629B7D95000D2C78A /* FeedAcceptenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAcceptenceTests.swift; sourceTree = "<group>"; };
+		758380582A1EBAD100E4B5D4 /* SharedPresentation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SharedPresentation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		75F35F3529C9132D00A40927 /* EssentialImageCommentsAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = EssentialImageCommentsAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -241,6 +242,7 @@
 		75302B1229ABB20C00E0623E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				758380582A1EBAD100E4B5D4 /* SharedPresentation.framework */,
 				75F35F3529C9132D00A40927 /* EssentialImageCommentsAPI.framework */,
 				75559A7E29C8BBD000CF1FC4 /* SharedAPI.framework */,
 				75559A4D29BCDC2C00CF1FC4 /* EssentialFeedCacheInfrastructure.framework */,
