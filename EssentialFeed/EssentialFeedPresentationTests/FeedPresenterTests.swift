@@ -9,11 +9,20 @@
 import XCTest
 import EssentialFeed
 import EssentialFeedPresentation
+import SharedPresentation
 
 class FeedPresenterTests: XCTestCase {
     
     func test_title_isLocalized() {
         XCTAssertEqual(FeedPresenter.title, localized("FEED_VIEW_TITLE"))
+    }
+    
+    func test_map_createsViewModel() {
+        let feed = uniqueImageFeed().models
+        
+        let viewModel = FeedPresenter.map(feed)
+        
+        XCTAssertEqual(viewModel.feed, feed)
     }
     
     func test_init_doesNotSendMessagesToView() {

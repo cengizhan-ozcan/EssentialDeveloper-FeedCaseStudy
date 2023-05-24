@@ -8,7 +8,6 @@
 
 import XCTest
 import EssentialFeed
-import EssentialFeedCache
 import EssentialFeedPresentation
 
 class LoadResourcePresenterTests: XCTestCase {

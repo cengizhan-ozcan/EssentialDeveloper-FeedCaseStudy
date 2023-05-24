@@ -8,6 +8,7 @@
 
 import Foundation
 import EssentialFeed
+import SharedPresentation
 
 public protocol FeedView {
     func display(_ viewModel: FeedViewModel)
@@ -31,8 +32,12 @@ public final class FeedPresenter {
     }
     
     private var feedLoadError: String {
-        return NSLocalizedString("GENERIC_CONNECTION_ERROR", tableName: "Shared", bundle: Bundle(for: FeedPresenter.self),
-                                 comment: "Error message displayed when we can't load the image feed from the server")
+        return NSLocalizedString("GENERIC_CONNECTION_ERROR", tableName: "Shared", bundle: Bundle(for: LoadResourcePresenter<Any, DummyView>.self),
+                                 comment: "Error message displayed when we can't load the resource from the server")
+    }
+    
+    class DummyView: ResourceView {
+        func display(_ viewModel: Any) {}
     }
     
     public func didStartLoadingFeed() {
@@ -41,12 +46,16 @@ public final class FeedPresenter {
     }
     
     public func didFinishLoadingFeed(with feed: [FeedImage]) {
-        feedView.display(FeedViewModel(feed: feed))
+        feedView.display(Self.map(feed))
         loadingView.display(ResourceLoadingViewModel(isLoading: false))
     }
     
     public func didFinishLoadingFeed(with error: Error) {
         errorView.display(.error(message: feedLoadError))
         loadingView.display(ResourceLoadingViewModel(isLoading: false))
+    }
+    
+    public static func map(_ feed: [FeedImage]) -> FeedViewModel {
+        FeedViewModel(feed: feed)
     }
 }
