@@ -84,7 +84,7 @@ class LoadResourcePresenterTests: XCTestCase {
             messages.insert(.display(resourceViewModel: viewModel))
         }
         
-        func display(_ viewModel: ResouceLoadingViewModel) {
+        func display(_ viewModel: ResourceLoadingViewModel) {
             messages.insert(.display(isLoading: viewModel.isLoading))
         }
         
