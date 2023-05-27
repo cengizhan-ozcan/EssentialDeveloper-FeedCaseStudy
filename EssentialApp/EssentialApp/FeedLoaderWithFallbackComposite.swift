@@ -7,6 +7,7 @@
 
 import Foundation
 import EssentialFeed
+import SharedAPI
 
 public class FeedLoaderWithFallbackComposite: FeedLoader {
     

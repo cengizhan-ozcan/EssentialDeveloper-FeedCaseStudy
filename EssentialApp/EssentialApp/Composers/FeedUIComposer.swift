@@ -11,13 +11,14 @@ import EssentialFeed
 import EssentialFeediOS
 import EssentialFeedPresentation
 import SharedPresentation
+import SharedAPI
 
 public final class FeedUIComposer {
     
     private init() {}
     
     public static func feedComposedWith(feedLoader: FeedLoader, imageLoader: FeedImageDataLoader) -> FeedViewController {
-        let presentationAdapter = FeedLoaderPresentationAdapter(feedLoader: MainQueueDispatchDecorator(decoratee: feedLoader))
+        let presentationAdapter = LoadResourcePresentationAdapter<FeedLoader, [FeedImage], FeedViewAdapter>(loader: feedLoader)
         
         let feedController = makeFeedViewController(delegate: presentationAdapter, title: FeedPresenter.title)
         

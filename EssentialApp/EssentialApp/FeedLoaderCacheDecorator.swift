@@ -6,6 +6,7 @@
 //
 
 import EssentialFeed
+import SharedAPI
 
 public class FeedLoaderCacheDecorator: FeedLoader {
     

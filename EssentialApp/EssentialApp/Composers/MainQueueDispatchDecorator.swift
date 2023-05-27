@@ -8,6 +8,7 @@
 
 import Foundation
 import EssentialFeed
+import SharedAPI
 
 final class MainQueueDispatchDecorator<T> {
     
