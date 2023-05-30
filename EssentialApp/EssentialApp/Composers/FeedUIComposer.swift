@@ -18,7 +18,7 @@ public final class FeedUIComposer {
     private init() {}
     
     public static func feedComposedWith(feedLoader: FeedLoader, imageLoader: FeedImageDataLoader) -> FeedViewController {
-        let presentationAdapter = LoadResourcePresentationAdapter<FeedLoader, [FeedImage], FeedViewAdapter>(loader: feedLoader)
+        let presentationAdapter = LoadResourcePresentationAdapter<ResourceLoaderAdapter, [FeedImage], FeedViewAdapter>(loader: ResourceLoaderAdapter(loader: feedLoader))
         
         let feedController = makeFeedViewController(delegate: presentationAdapter, title: FeedPresenter.title)
         
@@ -37,5 +37,20 @@ public final class FeedUIComposer {
         feedController.delegate = delegate
         feedController.title = FeedPresenter.title
         return feedController
+    }
+}
+
+
+private class ResourceLoaderAdapter: ResourceLoader {
+    
+    let loader: FeedLoader
+    
+    init(loader: FeedLoader) {
+        self.loader = loader
+    }
+    
+    func load(completion: @escaping (Result<[FeedImage], Error>) -> Void) -> ResourceLoaderTask? {
+        loader.load(completion: completion)
+        return nil
     }
 }

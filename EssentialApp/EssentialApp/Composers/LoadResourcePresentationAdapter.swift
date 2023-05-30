@@ -13,35 +13,57 @@ import EssentialFeedPresentation
 import SharedPresentation
 import SharedAPI
 
-final class LoadResourcePresentationAdapter<T, Resource, View: ResourceView> {
+public protocol ResourceLoaderTask {
+    func cancel()
+}
+
+protocol ResourceLoader {
     
-    private let loader: T
+    associatedtype Resource
+    
+    typealias Result = Swift.Result<Resource, Error>
+    
+    func load(completion: @escaping (Result) -> Void) -> ResourceLoaderTask?
+}
+
+final class LoadResourcePresentationAdapter<Loader: ResourceLoader, Resource, View: ResourceView> where Loader.Resource == Resource {
+    
+    private let loader: Loader
+    private var task: ResourceLoaderTask?
     var presenter: LoadResourcePresenter<Resource, View>?
     
-    init(loader: T) {
+    init(loader: Loader) {
         self.loader = loader
     }
     
-    func startLoading() {
+    func loadResource() {
         presenter?.didStartLoading()
-    }
-    
-    func loadResource(with result: Result<Resource, Error>) {
-        switch result {
-        case let .success(resource):
-            presenter?.didFinishLoading(with: resource)
-        case let .failure(error):
-            presenter?.didFinishLoading(with: error)
+        task = loader.load { [weak self] result in
+            switch result {
+            case let .success(resource):
+                self?.presenter?.didFinishLoading(with: resource)
+            case let .failure(error):
+                self?.presenter?.didFinishLoading(with: error)
+            }
         }
     }
 }
 
-extension LoadResourcePresentationAdapter: FeedViewControllerDelegate where T == FeedLoader, Resource == [FeedImage] {
+extension LoadResourcePresentationAdapter: FeedViewControllerDelegate where Resource == [FeedImage] {
     
     func didRequestFeedRefresh() {
-        startLoading()
-        loader.load { [weak self] result in
-            self?.loadResource(with: result)
-        }
+        loadResource()
+    }
+}
+
+extension LoadResourcePresentationAdapter: FeedImageCellControllerDelegate where Resource == Data {
+    
+    func didRequestImage() {
+        loadResource()
+    }
+    
+    func didCancelImageRequest() {
+        task?.cancel()
+        task = nil
     }
 }

@@ -21,7 +21,6 @@ final class WeakRefVirtualProxy<T: AnyObject> {
     }
 }
 
-
 extension WeakRefVirtualProxy: ResourceLoadingView where T: ResourceLoadingView {
     
     func display(_ viewModel: ResourceLoadingViewModel) {
@@ -39,6 +38,13 @@ extension WeakRefVirtualProxy: FeedImageView where T: FeedImageView, T.Image == 
 extension WeakRefVirtualProxy: ResourceErrorView where T: ResourceErrorView {
     
     func display(_ viewModel: ResourceErrorViewModel) {
+        object?.display(viewModel)
+    }
+}
+
+extension WeakRefVirtualProxy: ResourceView where T: ResourceView, T.ResourceViewModel == UIImage {
+  
+    func display(_ viewModel: UIImage) {
         object?.display(viewModel)
     }
 }
