@@ -7,11 +7,37 @@
 //
 
 import Foundation
+import EssentialFeed
+
+public struct ImageCommentsViewModel {
+    
+    public let comments: [ImageCommentViewModel]
+}
+
+public struct ImageCommentViewModel: Equatable {
+    
+    public let message: String
+    public let date: String
+    public let username: String
+    
+    public init(message: String, date: String, username: String) {
+        self.message = message
+        self.date = date
+        self.username = username
+    }
+}
 
 public final class ImageCommentPresenter {
     
     public static var title: String {
         return NSLocalizedString("IMAGE_COMMENTS_VIEW_TITLE", tableName: "ImageComment", bundle: Bundle(for: ImageCommentPresenter.self),
                                  comment: "Title for the comments view")
+    }
+    
+    public static func map(_ comments: [ImageComment]) -> ImageCommentsViewModel {
+        let formatter = RelativeDateTimeFormatter()
+        return ImageCommentsViewModel(comments: comments.map({ comment in
+            ImageCommentViewModel(message: comment.message, date: formatter.localizedString(for: comment.createdAt, relativeTo: Date()), username: comment.username)
+        }))
     }
 }
