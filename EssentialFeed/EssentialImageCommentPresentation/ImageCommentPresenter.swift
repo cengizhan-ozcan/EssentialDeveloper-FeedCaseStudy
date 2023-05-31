@@ -1,5 +1,5 @@
 //
-//  ImageCommentsPresenter.swift
+//  ImageCommentPresenter.swift
 //  EssentialImageCommentPresentation
 //
 //  Created by Cengizhan Özcan on 31.05.2023.
@@ -8,10 +8,10 @@
 
 import Foundation
 
-public final class ImageCommentsPresenter {
+public final class ImageCommentPresenter {
     
     public static var title: String {
-        return NSLocalizedString("IMAGE_COMMENTS_VIEW_TITLE", tableName: "ImageComments", bundle: Bundle(for: ImageCommentsPresenter.self),
+        return NSLocalizedString("IMAGE_COMMENTS_VIEW_TITLE", tableName: "ImageComment", bundle: Bundle(for: ImageCommentPresenter.self),
                                  comment: "Title for the comments view")
     }
 }
