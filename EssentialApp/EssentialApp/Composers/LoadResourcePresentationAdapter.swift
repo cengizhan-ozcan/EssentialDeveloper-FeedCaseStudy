@@ -49,13 +49,6 @@ final class LoadResourcePresentationAdapter<Loader: ResourceLoader, Resource, Vi
     }
 }
 
-extension LoadResourcePresentationAdapter: FeedViewControllerDelegate where Resource == [FeedImage] {
-    
-    func didRequestFeedRefresh() {
-        loadResource()
-    }
-}
-
 extension LoadResourcePresentationAdapter: FeedImageCellControllerDelegate where Resource == Data {
     
     func didRequestImage() {
