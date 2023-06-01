@@ -14,10 +14,10 @@ import SharedPresentation
 
 final class FeedViewAdapter: ResourceView {
     
-    private weak var controller: FeedViewController?
+    private weak var controller: ListViewController?
     private let imageLoader: FeedImageDataLoader
     
-    init(controller: FeedViewController, imageLoader: FeedImageDataLoader) {
+    init(controller: ListViewController, imageLoader: FeedImageDataLoader) {
         self.controller = controller
         self.imageLoader = imageLoader
     }

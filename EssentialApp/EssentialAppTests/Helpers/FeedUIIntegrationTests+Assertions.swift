@@ -13,7 +13,7 @@ import EssentialFeediOS
 
 extension FeedUIIntegrationTests {
     
-    func assertThat(_ sut: FeedViewController, hasViewConfiguredFor image: FeedImage, at index: Int,
+    func assertThat(_ sut: ListViewController, hasViewConfiguredFor image: FeedImage, at index: Int,
                             file: StaticString = #file, line: UInt = #line) {
         let view = sut.feedImageView(at: index)
         
@@ -33,7 +33,7 @@ extension FeedUIIntegrationTests {
                        file: file, line: line)
     }
     
-    func assertThat(_ sut: FeedViewController, isRendering images: [FeedImage],
+    func assertThat(_ sut: ListViewController, isRendering images: [FeedImage],
                             file: StaticString = #file, line: UInt = #line) {
         sut.tableView.layoutIfNeeded()
         RunLoop.main.run(until: Date())
