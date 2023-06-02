@@ -15,7 +15,7 @@ class ImageCommentsSnapshotTests: XCTestCase {
     func test_listWithComments() {
         let sut = makeSUT()
         
-        sut.display(comments())
+        sut.display(comment())
         
         assert(snapshot: sut.snapshot(for: .iPhone8(style: .light)), named: "IMAGE_COMMENTS_light")
         assert(snapshot: sut.snapshot(for: .iPhone8(style: .dark)), named: "IMAGE_COMMENTS_dark")
@@ -33,7 +33,11 @@ class ImageCommentsSnapshotTests: XCTestCase {
         return controller
     }
     
-    private func comments() -> [CellController] {
+    private func comment() -> [CellController] {
+        commentControllers().map { CellController($0) }
+    }
+    
+    private func commentControllers() -> [ImageCommentCellController] {
         return [
             ImageCommentCellController(
                 model: ImageCommentViewModel(message: "The East Side Gallery is an open-air gallery in Berlin. It consists of a series of murals painted directly on a 1,316 m long remnant of the Berlin Wall, located near the centre of Berlin, on MühlenstraBe in Friedrichshain-Kreuzberg. The gallery has official status as a Denkmal, or heritage-protected landmark.",
