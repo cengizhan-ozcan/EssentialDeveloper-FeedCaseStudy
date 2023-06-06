@@ -9,6 +9,7 @@
 import XCTest
 import EssentialFeed
 import EssentialFeedPresentation
+import EssentialImageCommentPresentation
 import SharedPresentation
 
 extension FeedUIIntegrationTests {
@@ -23,5 +24,9 @@ extension FeedUIIntegrationTests {
     
     var feedTitle: String {
         FeedPresenter.title
+    }
+    
+    var commentsTitle: String {
+        ImageCommentPresenter.title
     }
 }
