@@ -1,31 +1,31 @@
 //
-//  FeedUIComposer.swift
-//  EssentialFeediOS
+//  CommentsUIComposer.swift
+//  EssentialApp
 //
-//  Created by Cengizhan Özcan on 22.01.2023.
-//  Copyright © 2023 Essential Developer. All rights reserved.
+//  Created by Cengizhan Özcan on 7.06.2023.
 //
 
 import UIKit
 import EssentialFeed
 import EssentialFeediOS
 import EssentialFeedPresentation
+import EssentialImageCommentPresentation
 import SharedPresentation
 import SharedAPI
 
-public final class FeedUIComposer {
+public final class CommentsUIComposer {
     
-    private typealias FeedPrensentationAdapter = LoadResourcePresentationAdapter<ResourceLoaderAdapter, [FeedImage], FeedViewAdapter>
+    private typealias CommentsPresentationAdapter = LoadResourcePresentationAdapter<ResourceLoaderAdapter, [FeedImage], FeedViewAdapter>
     
     private init() {}
     
-    public static func feedComposedWith(feedLoader: FeedLoader, imageLoader: FeedImageDataLoader) -> ListViewController {
-        let presentationAdapter = FeedPrensentationAdapter(loader: ResourceLoaderAdapter(loader: MainQueueDispatchDecorator(decoratee: feedLoader)))
+    public static func commentsComposedWith(commentsLoader: FeedLoader) -> ListViewController {
+        let presentationAdapter = CommentsPresentationAdapter(loader: ResourceLoaderAdapter(loader: MainQueueDispatchDecorator(decoratee: commentsLoader)))
         
         let feedController = makeFeedViewController(title: FeedPresenter.title)
         feedController.onRefresh = presentationAdapter.loadResource
         presentationAdapter.presenter = LoadResourcePresenter(resourceView: FeedViewAdapter(controller: feedController,
-                                                                                            imageLoader: MainQueueDispatchDecorator(decoratee: imageLoader)),
+                                                                                            imageLoader: DummyImageLoader()),
                                                               loadingView: WeakRefVirtualProxy(feedController),
                                                               errorView: WeakRefVirtualProxy(feedController),
                                                               mapper: FeedPresenter.map)
@@ -41,6 +41,18 @@ public final class FeedUIComposer {
     }
 }
 
+private class DummyImageLoader: FeedImageDataLoader {
+    
+    private class Task: FeedImageDataLoaderTask {
+    
+        func cancel() {
+        }
+    }
+    
+    func loadImageData(from url: URL, completion: @escaping (Result<Data, Error>) -> Void) -> FeedImageDataLoaderTask {
+        return Task()
+    }
+}
 
 private class ResourceLoaderAdapter: ResourceLoader {
     
