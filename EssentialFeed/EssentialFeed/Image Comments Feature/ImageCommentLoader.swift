@@ -11,5 +11,5 @@ import Foundation
 public protocol ImageCommentLoader {
     typealias Result = Swift.Result<[ImageComment], Error>
     
-    func load(completion: @escaping (Result) -> Void)
+    func load(completion: @escaping (Result) -> Void) -> LoaderTask
 }

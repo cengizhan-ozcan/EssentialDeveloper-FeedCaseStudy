@@ -12,7 +12,7 @@ import SharedAPI
 
 public final class RemoteFeedImageDataLoader: FeedImageDataLoader {
     
-    private final class HTTPClientTaskWrapper: FeedImageDataLoaderTask {
+    private final class HTTPClientTaskWrapper: LoaderTask {
         
         private var completion: ((FeedImageDataLoader.Result) -> Void)?
         
@@ -47,7 +47,7 @@ public final class RemoteFeedImageDataLoader: FeedImageDataLoader {
         case invalidData
     }
     
-    public func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) -> FeedImageDataLoaderTask {
+    public func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) -> LoaderTask {
         let task = HTTPClientTaskWrapper(completion)
         task.wrapper = client.get(from: url) { [weak self] result in
             guard self != nil else { return }

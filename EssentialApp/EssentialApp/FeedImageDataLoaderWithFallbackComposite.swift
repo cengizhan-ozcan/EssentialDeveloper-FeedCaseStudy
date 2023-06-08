@@ -10,9 +10,9 @@ import EssentialFeed
 
 public class FeedImageDataLoaderWithFallbackComposite: FeedImageDataLoader {
     
-    private class TaskWrapper: FeedImageDataLoaderTask {
+    private class TaskWrapper: LoaderTask {
         
-        var wrapped: FeedImageDataLoaderTask?
+        var wrapped: LoaderTask?
         
         func cancel() {
             wrapped?.cancel()
@@ -27,7 +27,7 @@ public class FeedImageDataLoaderWithFallbackComposite: FeedImageDataLoader {
         self.fallback = fallback
     }
     
-    public func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) -> FeedImageDataLoaderTask {
+    public func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) -> LoaderTask {
         let task = TaskWrapper()
         task.wrapped = primary.loadImageData(from: url) { [weak self] result in
             switch result {

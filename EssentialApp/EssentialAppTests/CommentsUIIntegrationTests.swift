@@ -142,6 +142,22 @@ class CommentsUIIntegrationTests: XCTestCase {
         XCTAssertEqual(sut.errorMessage, nil)
     }
     
+    func test_deinit_cancelsRunningRequest() {
+        let loader = LoaderSpy()
+        
+        var sut: ListViewController?
+        autoreleasepool {
+            sut = CommentsUIComposer.commentsComposedWith(commentsLoader: loader)
+            
+            sut?.loadViewIfNeeded()
+        }
+        
+        XCTAssertEqual(loader.cancelCount, 0)
+        
+        sut = nil
+        XCTAssertEqual(loader.cancelCount, 1)
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: ListViewController, loader: LoaderSpy) {
@@ -169,14 +185,24 @@ class CommentsUIIntegrationTests: XCTestCase {
     
     class LoaderSpy: ImageCommentLoader {
         
+        private struct Task: LoaderTask {
+            
+            let callback: () -> Void
+            func cancel() { callback() }
+        }
+        
         private var requests = [(RemoteLoader<[ImageComment]>.Result) -> Void]()
+        private(set) var cancelCount = 0
         
         var loadCommentsCallCount: Int {
             return requests.count
         }
         
-        func load(completion: @escaping (RemoteLoader<[ImageComment]>.Result) -> Void) {
+        func load(completion: @escaping (RemoteLoader<[ImageComment]>.Result) -> Void) -> LoaderTask {
             requests.append(completion)
+            return Task { [weak self] in
+                self?.cancelCount += 1
+            }
         }
         
         func completeCommentsLoading(with comments: [ImageComment] = [], at index: Int = 0) {

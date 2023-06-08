@@ -334,6 +334,22 @@ class FeedUIIntegrationTests: XCTestCase {
         XCTAssertEqual(sut.errorMessage, nil)
     }
     
+    func test_deinit_cancelsRunningRequest() {
+        let loader = LoaderSpy()
+        
+        var sut: ListViewController?
+        autoreleasepool {
+            sut = FeedUIComposer.feedComposedWith(feedLoader: loader, imageLoader: loader)
+            
+            sut?.loadViewIfNeeded()
+        }
+        
+        XCTAssertEqual(loader.feedCancelCount, 0)
+        
+        sut = nil
+        XCTAssertEqual(loader.feedCancelCount, 1)
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: ListViewController, loader: LoaderSpy) {

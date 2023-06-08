@@ -19,13 +19,13 @@ public class FeedLoaderWithFallbackComposite: FeedLoader {
         self.fallback = fallback
     }
     
-    public func load(completion: @escaping (FeedLoader.Result) -> Void) {
+    public func load(completion: @escaping (FeedLoader.Result) -> Void) -> LoaderTask {
         primary.load { [weak self] result in
             switch result {
             case .success:
                 completion(result)
             case .failure:
-                self?.fallback.load(completion: completion)
+                _ = self?.fallback.load(completion: completion)
             }
         }
     }

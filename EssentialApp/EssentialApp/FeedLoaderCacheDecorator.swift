@@ -18,7 +18,7 @@ public class FeedLoaderCacheDecorator: FeedLoader {
         self.cache = cache
     }
     
-    public func load(completion: @escaping (FeedLoader.Result) -> Void) {
+    public func load(completion: @escaping (FeedLoader.Result) -> Void) -> LoaderTask {
         decoratee.load { [weak self] result in
             completion(result.map({ feed in
                 self?.cache.saveIgnoringResult(feed)

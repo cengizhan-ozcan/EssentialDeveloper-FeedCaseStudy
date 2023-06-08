@@ -47,9 +47,8 @@ private class ResourceLoaderAdapter: ResourceLoader {
         self.loader = loader
     }
     
-    func load(completion: @escaping (ImageCommentLoader.Result) -> Void) -> ResourceLoaderTask? {
-        loader.load(completion: completion)
-        return nil
+    func load(completion: @escaping (ImageCommentLoader.Result) -> Void) -> LoaderTask? {
+        return loader.load(completion: completion)
     }
 }
 

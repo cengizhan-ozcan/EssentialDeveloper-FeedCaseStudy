@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import EssentialFeed
 
 public final class RemoteLoader<Resource> {
     
@@ -22,23 +23,49 @@ public final class RemoteLoader<Resource> {
         case invalidData
     }
     
+    private final class HTTPClientTaskWrapper: LoaderTask {
+        
+        private var completion: ((Result) -> Void)?
+        
+        var wrapper: HTTPClientTask?
+        
+        init(_ completion: @escaping (Result) -> Void) {
+            self.completion = completion
+        }
+        
+        func complete(with result: Result) {
+            completion?(result)
+        }
+        
+        func cancel() {
+            preventFurtherCompletions()
+            wrapper?.cancel()
+        }
+        
+        private func preventFurtherCompletions() {
+            completion = nil
+        }
+    }
+    
     public init(url: URL, client: HTTPClient, mapper: @escaping Mapper) {
         self.url = url
         self.client = client
         self.mapper = mapper
     }
     
-    public func load(completion: @escaping (Result) -> Void) {
-        client.get(from: url) { [weak self] result in
+    public func load(completion: @escaping (Result) -> Void) -> LoaderTask {
+        let task = HTTPClientTaskWrapper(completion)
+        task.wrapper = client.get(from: url) { [weak self] result in
             guard let self = self else { return }
             
             switch result {
             case let .success((data, response)):
-                completion(self.map(data, from: response))
+                task.complete(with: self.map(data, from: response))
             case .failure:
-                completion(.failure(Error.connectivity))
+                task.complete(with: .failure(Error.connectivity))
             }
         }
+        return task
     }
     
     private func map(_ data: Data, from response: HTTPURLResponse) -> Result {

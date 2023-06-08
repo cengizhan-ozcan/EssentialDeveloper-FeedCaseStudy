@@ -50,8 +50,7 @@ private class ResourceLoaderAdapter: ResourceLoader {
         self.loader = loader
     }
     
-    func load(completion: @escaping (Result<[FeedImage], Error>) -> Void) -> ResourceLoaderTask? {
-        loader.load(completion: completion)
-        return nil
+    func load(completion: @escaping (Result<[FeedImage], Error>) -> Void) -> LoaderTask? {
+        return loader.load(completion: completion)
     }
 }

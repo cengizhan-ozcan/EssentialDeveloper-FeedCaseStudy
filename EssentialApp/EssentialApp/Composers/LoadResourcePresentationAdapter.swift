@@ -13,27 +13,28 @@ import EssentialFeedPresentation
 import SharedPresentation
 import SharedAPI
 
-public protocol ResourceLoaderTask {
-    func cancel()
-}
-
 protocol ResourceLoader {
     
     associatedtype Resource
     
     typealias Result = Swift.Result<Resource, Error>
     
-    func load(completion: @escaping (Result) -> Void) -> ResourceLoaderTask?
+    func load(completion: @escaping (Result) -> Void) -> LoaderTask?
 }
 
 final class LoadResourcePresentationAdapter<Loader: ResourceLoader, Resource, View: ResourceView> where Loader.Resource == Resource {
     
     private let loader: Loader
-    private var task: ResourceLoaderTask?
+    private var task: LoaderTask?
     var presenter: LoadResourcePresenter<Resource, View>?
     
     init(loader: Loader) {
         self.loader = loader
+    }
+    
+    deinit {
+        task?.cancel()
+        task = nil
     }
     
     func loadResource() {

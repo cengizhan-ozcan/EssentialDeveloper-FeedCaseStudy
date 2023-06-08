@@ -47,11 +47,11 @@ private struct InvalidImageData: Error {}
 
 private class ResourceLoaderAdapter: ResourceLoader {
     
-    private class LoaderTask: ResourceLoaderTask {
+    private class ResourceLoaderLoaderTask: LoaderTask {
         
-        var task: FeedImageDataLoaderTask?
+        var task: LoaderTask?
         
-        init(task: FeedImageDataLoaderTask?) {
+        init(task: LoaderTask?) {
             self.task = task
         }
         
@@ -69,8 +69,8 @@ private class ResourceLoaderAdapter: ResourceLoader {
         self.imageLoader = imageLoader
     }
     
-    func load(completion: @escaping (Result<Data, Error>) -> Void) -> ResourceLoaderTask? {
+    func load(completion: @escaping (Result<Data, Error>) -> Void) -> LoaderTask? {
         let task = imageLoader.loadImageData(from: url, completion: completion)
-        return LoaderTask(task: task)
+        return ResourceLoaderLoaderTask(task: task)
     }
 }

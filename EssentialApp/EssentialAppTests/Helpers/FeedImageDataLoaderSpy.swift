@@ -10,7 +10,7 @@ import EssentialFeed
 
 class FeedImageDataLoaderSpy: FeedImageDataLoader {
     
-    private class Task: FeedImageDataLoaderTask {
+    private class Task: LoaderTask {
         
         var completion: () -> Void
         
@@ -30,7 +30,7 @@ class FeedImageDataLoaderSpy: FeedImageDataLoader {
         return messages.map { $0.url }
     }
     
-    func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) -> FeedImageDataLoaderTask {
+    func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) -> LoaderTask {
         messages.append((url, completion))
         return Task { [weak self] in
             self?.cancelledURLs.append(url)
