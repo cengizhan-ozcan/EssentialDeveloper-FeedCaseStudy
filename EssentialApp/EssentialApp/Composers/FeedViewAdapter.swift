@@ -16,10 +16,13 @@ final class FeedViewAdapter: ResourceView {
     
     private weak var controller: ListViewController?
     private let imageLoader: FeedImageDataLoader
+    private let selection: (FeedImage) -> Void
     
-    init(controller: ListViewController, imageLoader: FeedImageDataLoader) {
+    init(controller: ListViewController, imageLoader: FeedImageDataLoader,
+         selection: @escaping (FeedImage) -> Void = { _ in }) {
         self.controller = controller
         self.imageLoader = imageLoader
+        self.selection = selection
     }
     
     func display(_ viewModel: FeedViewModel) {
@@ -27,7 +30,9 @@ final class FeedViewAdapter: ResourceView {
             
             let adapter = LoadResourcePresentationAdapter<ResourceLoaderAdapter, Data, WeakRefVirtualProxy<FeedImageCellController>>(loader: ResourceLoaderAdapter(url: model.url, imageLoader: imageLoader))
             
-            let view = FeedImageCellController(viewModel: FeedImagePresenter.map(model), delegate: adapter)
+            let view = FeedImageCellController(viewModel: FeedImagePresenter.map(model), delegate: adapter) { [selection] in
+                selection(model)
+            }
             
             adapter.presenter = LoadResourcePresenter(resourceView: WeakRefVirtualProxy(view),
                                                       loadingView: WeakRefVirtualProxy(view),
