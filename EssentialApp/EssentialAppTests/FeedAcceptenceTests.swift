@@ -199,7 +199,7 @@ class FeedAcceptenceTests: XCTestCase {
              "created_at": "2020-05-20T11:24:59+0000",
              "author": [
                 "username": "a username"
-             ]]
+             ]] as [String : Any]
         ]])
     }
     
