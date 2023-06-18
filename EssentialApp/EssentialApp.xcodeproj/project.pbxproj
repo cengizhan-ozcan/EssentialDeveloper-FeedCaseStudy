@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		752E58ED2A3FA42100A8469E /* RemoteFeedImageDataLoaderAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 752E58EC2A3FA42100A8469E /* RemoteFeedImageDataLoaderAdapter.swift */; };
 		75302AE329ABAEA900E0623E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75302AE229ABAEA900E0623E /* AppDelegate.swift */; };
 		75302AE529ABAEA900E0623E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75302AE429ABAEA900E0623E /* SceneDelegate.swift */; };
 		75302AEC29ABAEAA00E0623E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75302AEB29ABAEAA00E0623E /* Assets.xcassets */; };
@@ -100,6 +101,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		752E58EC2A3FA42100A8469E /* RemoteFeedImageDataLoaderAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedImageDataLoaderAdapter.swift; sourceTree = "<group>"; };
 		75302ADF29ABAEA900E0623E /* EssentialApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EssentialApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		75302AE229ABAEA900E0623E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		75302AE429ABAEA900E0623E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 				7561D45729AE5A8D00D2C78A /* FeedImageDataLoaderWithFallbackComposite.swift */,
 				7561D46629B3688D00D2C78A /* FeedLoaderCacheDecorator.swift */,
 				7561D47029B3AFEC00D2C78A /* FeedImageDataCacheDecorator.swift */,
+				752E58EC2A3FA42100A8469E /* RemoteFeedImageDataLoaderAdapter.swift */,
 				75302AEB29ABAEAA00E0623E /* Assets.xcassets */,
 				75302AED29ABAEAA00E0623E /* LaunchScreen.storyboard */,
 				75302AF029ABAEAA00E0623E /* Info.plist */,
@@ -444,6 +447,7 @@
 				75302AE329ABAEA900E0623E /* AppDelegate.swift in Sources */,
 				7561D4A129B7A62C00D2C78A /* FeedViewAdapter.swift in Sources */,
 				7561D4A229B7A62E00D2C78A /* LoadResourcePresentationAdapter.swift in Sources */,
+				752E58ED2A3FA42100A8469E /* RemoteFeedImageDataLoaderAdapter.swift in Sources */,
 				75302B1D29ABC41900E0623E /* FeedLoaderWithFallbackComposite.swift in Sources */,
 				7561D48229B3E61600D2C78A /* DebuggingSceneDelegate.swift in Sources */,
 				7561D46729B3688D00D2C78A /* FeedLoaderCacheDecorator.swift in Sources */,

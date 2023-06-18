@@ -58,6 +58,8 @@
 		753C5A232A3A6825005615D0 /* FEED_WITH_LOAD_MORE_ERROR_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 753C5A212A3A6825005615D0 /* FEED_WITH_LOAD_MORE_ERROR_dark.png */; };
 		753C5A252A3A684E005615D0 /* FEED_WITH_LOAD_MORE_ERROR_light_extraExtraExtraLarge.png in Resources */ = {isa = PBXBuildFile; fileRef = 753C5A242A3A684E005615D0 /* FEED_WITH_LOAD_MORE_ERROR_light_extraExtraExtraLarge.png */; };
 		753C5A272A3A6F32005615D0 /* Paginated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753C5A262A3A6F32005615D0 /* Paginated.swift */; };
+		753C5A2B2A3F7025005615D0 /* FeedImageDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753C5A2A2A3F7025005615D0 /* FeedImageDataMapper.swift */; };
+		753C5A2D2A3F704B005615D0 /* FeedImageDataMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753C5A2C2A3F704B005615D0 /* FeedImageDataMapperTests.swift */; };
 		753FF233297D764100D52B03 /* FeedImageCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753FF232297D764100D52B03 /* FeedImageCellController.swift */; };
 		7544B6202A12DF7200A39C6B /* FeedImageDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7544B61E2A12DF7200A39C6B /* FeedImageDataLoader.swift */; };
 		7544B6212A12DF7200A39C6B /* FeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7544B61F2A12DF7200A39C6B /* FeedLoader.swift */; };
@@ -575,6 +577,8 @@
 		753C5A212A3A6825005615D0 /* FEED_WITH_LOAD_MORE_ERROR_dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FEED_WITH_LOAD_MORE_ERROR_dark.png; sourceTree = "<group>"; };
 		753C5A242A3A684E005615D0 /* FEED_WITH_LOAD_MORE_ERROR_light_extraExtraExtraLarge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FEED_WITH_LOAD_MORE_ERROR_light_extraExtraExtraLarge.png; sourceTree = "<group>"; };
 		753C5A262A3A6F32005615D0 /* Paginated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Paginated.swift; sourceTree = "<group>"; };
+		753C5A2A2A3F7025005615D0 /* FeedImageDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageDataMapper.swift; sourceTree = "<group>"; };
+		753C5A2C2A3F704B005615D0 /* FeedImageDataMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageDataMapperTests.swift; sourceTree = "<group>"; };
 		753FF232297D764100D52B03 /* FeedImageCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageCellController.swift; sourceTree = "<group>"; };
 		7544B61E2A12DF7200A39C6B /* FeedImageDataLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedImageDataLoader.swift; sourceTree = "<group>"; };
 		7544B61F2A12DF7200A39C6B /* FeedLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedLoader.swift; sourceTree = "<group>"; };
@@ -1198,6 +1202,7 @@
 				755384E629AA3BAE00CE5569 /* Helpers */,
 				75D8393C294A66A600B7F6E6 /* FeedItemsMapper.swift */,
 				75E4B5712A13F3D500531AA2 /* RemoteFeedImageDataLoader.swift */,
+				753C5A2A2A3F7025005615D0 /* FeedImageDataMapper.swift */,
 			);
 			path = EssentialFeedAPI;
 			sourceTree = "<group>";
@@ -1207,6 +1212,7 @@
 			children = (
 				08DDC13921BEA99E00F490ED /* FeedItemsMapperTests.swift */,
 				75E4B5732A13F3E400531AA2 /* LoadFeedImageDataFromRemoteUseCaseTests.swift */,
+				753C5A2C2A3F704B005615D0 /* FeedImageDataMapperTests.swift */,
 			);
 			path = EssentialFeedAPITests;
 			sourceTree = "<group>";
@@ -2392,6 +2398,7 @@
 			files = (
 				7555995729BCCAA800CF1FC4 /* FeedItemsMapper.swift in Sources */,
 				7555995B29BCCAB300CF1FC4 /* HTTPURLResponse+StatusCode.swift in Sources */,
+				753C5A2B2A3F7025005615D0 /* FeedImageDataMapper.swift in Sources */,
 				75E4B5722A13F3D500531AA2 /* RemoteFeedImageDataLoader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2400,6 +2407,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				753C5A2D2A3F704B005615D0 /* FeedImageDataMapperTests.swift in Sources */,
 				7555996329BCCBC200CF1FC4 /* XCTestCase+Extensions.swift in Sources */,
 				75E4B5742A13F3E400531AA2 /* LoadFeedImageDataFromRemoteUseCaseTests.swift in Sources */,
 				7555996229BCCBB600CF1FC4 /* SharedTestHelpers.swift in Sources */,
