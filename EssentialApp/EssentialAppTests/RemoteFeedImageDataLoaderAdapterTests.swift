@@ -55,6 +55,17 @@ class RemoteFeedImageDataLoaderAdapterTests: XCTestCase {
         }
     }
     
+    func test_loadImageData_deliversDataWhen10TimesCalledOnLoaderSuccess() {
+        let (sut, client) = makeSUT()
+        let imageData = anyData()
+        
+        for _ in 0..<10 {
+            expect(sut, toCompleteWith: .success(imageData)) {
+                client.complete(with: imageData)
+            }
+        }
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: RemoteFeedImageDataLoaderAdapter, client: HTTPClientSpy) {
