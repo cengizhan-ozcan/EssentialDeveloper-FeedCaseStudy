@@ -21,30 +21,34 @@ class RemoteFeedImageDataLoaderAdapter {
 class RemoteFeedImageDataLoaderAdapterTests: XCTestCase {
     
     func test_init_doesNotLoadImageData() {
-        let client = HTTPClientSpy()
-        let _ = RemoteFeedImageDataLoaderAdapter(client: client)
+        let (_, client) = makeSUT()
         
         XCTAssertTrue(client.requestedURLs.isEmpty, "Expected no loaded URLs in the loader")
     }
-}
-
-
-// MARK: - Helpers
-
-class HTTPClientSpy: HTTPClient {
     
-    var requestedURLs = [URL]()
     
-    private class Task: HTTPClientTask {
+    // MARK: - Helpers
+    
+    private func makeSUT(client: HTTPClientSpy = .init(), file: StaticString = #file, line: UInt = #line) -> (sut: RemoteFeedImageDataLoaderAdapter, client: HTTPClientSpy) {
+        let client = HTTPClientSpy()
+        let sut = RemoteFeedImageDataLoaderAdapter(client: client)
+        return (sut, client)
+    }
+
+    private class HTTPClientSpy: HTTPClient {
         
-        func cancel() {
+        var requestedURLs = [URL]()
+        
+        private class Task: HTTPClientTask {
             
+            func cancel() {
+                
+            }
+        }
+        
+        func get(from url: URL, completion: @escaping (HTTPClient.Result) -> Void) -> HTTPClientTask {
+            requestedURLs.append(url)
+            return Task()
         }
     }
-    
-    func get(from url: URL, completion: @escaping (HTTPClient.Result) -> Void) -> HTTPClientTask {
-        requestedURLs.append(url)
-        return Task()
-    }
 }
-
