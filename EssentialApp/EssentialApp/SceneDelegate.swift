@@ -83,7 +83,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     private func makeLocalImageLoaderWithRemoteFallback() -> FeedImageDataLoader {
-        let remoteImageLoader = RemoteFeedImageDataLoader(client: makeRemoteClient()) //RemoteFeedImageDataLoaderAdapter(client: makeRemoteClient())
+        let remoteImageLoader = RemoteFeedImageDataLoaderAdapter(client: makeRemoteClient())
         let localImageLoader = LocalFeedImageDataLoader(store: store)
         return FeedImageDataLoaderWithFallbackComposite(primary: localImageLoader,
                                                         fallback: FeedImageDataCacheDecorator(decoratee: remoteImageLoader, cache: localImageLoader))

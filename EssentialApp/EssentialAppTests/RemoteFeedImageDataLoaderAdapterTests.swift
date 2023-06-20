@@ -55,15 +55,27 @@ class RemoteFeedImageDataLoaderAdapterTests: XCTestCase {
         }
     }
     
-    func test_loadImageData_deliversDataWhen10TimesCalledOnLoaderSuccess() {
+    func test_loadImageData_canHandleConcurrentRequests() {
         let (sut, client) = makeSUT()
         let imageData = anyData()
         
-        for _ in 0..<10 {
-            expect(sut, toCompleteWith: .success(imageData)) {
-                client.complete(with: imageData)
-            }
+        let expectation = expectation(description: "Wait for concurrent completions")
+        expectation.expectedFulfillmentCount = 2
+        
+        _ = sut.loadImageData(from: anyURL()) { result in
+            XCTAssertEqual(try? result.get(), imageData)
+            expectation.fulfill()
         }
+        
+        _ = sut.loadImageData(from: anyURL()) { result in
+            XCTAssertEqual(try? result.get(), imageData)
+            expectation.fulfill()
+        }
+        
+        client.complete(with: imageData, at: 0)
+        client.complete(with: imageData, at: 1)
+        
+        wait(for: [expectation], timeout: 0.1)
     }
     
     // MARK: - Helpers
@@ -96,9 +108,9 @@ class RemoteFeedImageDataLoaderAdapterTests: XCTestCase {
         
         wait(for: [expectation], timeout: 1.0)
     }
-
+    
     private class HTTPClientSpy: HTTPClient {
-                
+        
         private var messages = [(url: URL, completion: (HTTPClient.Result) -> Void)]()
         private(set) var cancelledURLs = [URL]()
         
@@ -123,7 +135,7 @@ class RemoteFeedImageDataLoaderAdapterTests: XCTestCase {
             let url = requestedURLs[index]
             let response = HTTPURLResponse(url: url, statusCode: 200,
                                            httpVersion: nil, headerFields: nil)!
-
+            
             messages[index].completion(.success((data, response)))
         }
         

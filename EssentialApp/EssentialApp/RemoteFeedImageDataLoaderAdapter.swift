@@ -23,10 +23,9 @@ public class RemoteFeedImageDataLoaderAdapter: FeedImageDataLoader {
         let remoteLoader = RemoteLoader(url: url, client: client, mapper: FeedImageDataMapper.map)
         let id = UUID()
         remoteLoaders[id] = remoteLoader
-        // TODO: Fix.
         return remoteLoaders[id]!.load(completion: { [weak self, id] result in
             self?.remoteLoaders[id] = nil
             completion(result)
-        }) as! LoaderTask
+        })
     }
 }
