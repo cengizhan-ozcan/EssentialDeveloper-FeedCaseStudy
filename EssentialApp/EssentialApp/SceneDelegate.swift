@@ -90,6 +90,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 }
 
+extension LoaderTask where Self: LoaderCancellableTask {}
 extension RemoteLoader: FeedLoader where Resource == [FeedImage] {}
 extension RemoteLoader: ImageCommentLoader where Resource == [ImageComment] {}
+
+
+
+
 

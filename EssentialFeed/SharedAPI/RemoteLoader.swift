@@ -7,7 +7,11 @@
 //
 
 import Foundation
-import EssentialFeed
+
+public protocol LoaderCancellableTask {
+    
+    func cancel()
+}
 
 public final class RemoteLoader<Resource> {
     
@@ -23,7 +27,7 @@ public final class RemoteLoader<Resource> {
         case invalidData
     }
     
-    private final class HTTPClientTaskWrapper: LoaderTask {
+    private final class HTTPClientTaskWrapper: LoaderCancellableTask {
         
         private var completion: ((Result) -> Void)?
         
@@ -53,7 +57,7 @@ public final class RemoteLoader<Resource> {
         self.mapper = mapper
     }
     
-    public func load(completion: @escaping (Result) -> Void) -> LoaderTask {
+    public func load(completion: @escaping (Result) -> Void) -> LoaderCancellableTask {
         let task = HTTPClientTaskWrapper(completion)
         task.wrapper = client.get(from: url) { [weak self] result in
             guard let self = self else { return }
