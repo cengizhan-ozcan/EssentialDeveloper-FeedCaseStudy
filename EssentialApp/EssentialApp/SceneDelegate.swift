@@ -83,16 +83,28 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     private func makeLocalImageLoaderWithRemoteFallback() -> FeedImageDataLoader {
-        let remoteImageLoader = RemoteFeedImageDataLoaderAdapter(client: makeRemoteClient())
+        let remoteImageLoader = RemoteFeedImageDataLoader(client: makeRemoteClient()) //RemoteFeedImageDataLoaderAdapter(client: makeRemoteClient())
         let localImageLoader = LocalFeedImageDataLoader(store: store)
         return FeedImageDataLoaderWithFallbackComposite(primary: localImageLoader,
                                                         fallback: FeedImageDataCacheDecorator(decoratee: remoteImageLoader, cache: localImageLoader))
     }
 }
 
-extension LoaderTask where Self: LoaderCancellableTask {}
-extension RemoteLoader: FeedLoader where Resource == [FeedImage] {}
-extension RemoteLoader: ImageCommentLoader where Resource == [ImageComment] {}
+
+extension RemoteLoader.RemoteLoaderTask: LoaderTask {}
+
+extension RemoteLoader: FeedLoader where Resource == [FeedImage] {
+    public func load(completion: @escaping (Result) -> Void) -> LoaderTask {
+        let task: RemoteLoaderTask = load(completion: completion)
+        return task
+    }
+}
+extension RemoteLoader: ImageCommentLoader where Resource == [ImageComment] {
+    public func load(completion: @escaping (Result) -> Void) -> EssentialFeed.LoaderTask {
+        let task: RemoteLoaderTask = load(completion: completion)
+        return task
+    }
+}
 
 
 

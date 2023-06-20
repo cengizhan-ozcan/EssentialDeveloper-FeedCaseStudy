@@ -8,11 +8,6 @@
 
 import Foundation
 
-public protocol LoaderCancellableTask {
-    
-    func cancel()
-}
-
 public final class RemoteLoader<Resource> {
     
     public typealias Result = Swift.Result<Resource, Swift.Error>
@@ -27,21 +22,21 @@ public final class RemoteLoader<Resource> {
         case invalidData
     }
     
-    private final class HTTPClientTaskWrapper: LoaderCancellableTask {
+    public final class RemoteLoaderTask {
         
         private var completion: ((Result) -> Void)?
         
-        var wrapper: HTTPClientTask?
+        fileprivate var wrapper: HTTPClientTask?
         
-        init(_ completion: @escaping (Result) -> Void) {
+        fileprivate init(_ completion: @escaping (Result) -> Void) {
             self.completion = completion
         }
         
-        func complete(with result: Result) {
+        fileprivate func complete(with result: Result) {
             completion?(result)
         }
         
-        func cancel() {
+        public func cancel() {
             preventFurtherCompletions()
             wrapper?.cancel()
         }
@@ -57,8 +52,8 @@ public final class RemoteLoader<Resource> {
         self.mapper = mapper
     }
     
-    public func load(completion: @escaping (Result) -> Void) -> LoaderCancellableTask {
-        let task = HTTPClientTaskWrapper(completion)
+    public func load(completion: @escaping (Result) -> Void) -> RemoteLoaderTask {
+        let task = RemoteLoaderTask(completion)
         task.wrapper = client.get(from: url) { [weak self] result in
             guard let self = self else { return }
             
