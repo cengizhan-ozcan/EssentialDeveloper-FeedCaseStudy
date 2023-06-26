@@ -66,7 +66,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     private func makeRemoteImageCommentLoader(with image: FeedImage) -> () -> AnyPublisher<[ImageComment], Error> {
-        let url = baseURL.appending(path: "/v1/image/\(image.id)/comments")
+        let url = ImageCommentsEndpoint.get(image.id).url(baseURL: baseURL)
         return {
             return self.makeRemoteClient()
                     .getPublisher(from: url)
@@ -85,8 +85,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     private func makeRemoteFeedLoaderWithLocalFallback() -> AnyPublisher<[FeedImage], Error> {
+        let url = FeedEndpoint.get.url(baseURL: baseURL)
         return makeRemoteClient()
-            .getPublisher(from: baseURL.appending(path: "/v1/feed"))
+            .getPublisher(from: url)
             .tryMap(FeedItemsMapper.map)
             .caching(to: localFeedLoader)
             .fallback(to: localFeedLoader.loadPublisher)
