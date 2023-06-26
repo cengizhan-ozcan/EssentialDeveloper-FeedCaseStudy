@@ -18,9 +18,9 @@ public final class LocalFeedImageDataLoader {
     }
 }
 
-extension LocalFeedImageDataLoader: FeedImageDataCache {
+extension LocalFeedImageDataLoader {
     
-    public typealias SaveResult = FeedImageDataCache.Result
+    public typealias SaveResult = Swift.Result<Void, Error>
     
     public enum SaveError: Swift.Error {
         case failed
@@ -44,7 +44,7 @@ extension LocalFeedImageDataLoader: FeedImageDataLoader {
         case notFound
     }
     
-    private final class LoadImageTask: LoaderTask {
+    private final class LoadImageTask: FeedImageDataLoaderTask {
         
         private var completion: ((FeedImageDataLoader.Result) -> Void)?
         
@@ -65,7 +65,7 @@ extension LocalFeedImageDataLoader: FeedImageDataLoader {
         }
     }
     
-    public func loadImageData(from url: URL, completion: @escaping (LoadResult) -> Void) -> LoaderTask {
+    public func loadImageData(from url: URL, completion: @escaping (LoadResult) -> Void) -> FeedImageDataLoaderTask {
         let task = LoadImageTask(completion)
         store.retrieve(dataForURL: url) { [weak self] result in
             guard self != nil else { return }

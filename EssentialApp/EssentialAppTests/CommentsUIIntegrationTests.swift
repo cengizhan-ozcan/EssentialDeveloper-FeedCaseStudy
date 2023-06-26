@@ -7,6 +7,7 @@
 
 import XCTest
 import UIKit
+import Combine
 import EssentialApp
 import EssentialFeed
 import EssentialImageCommentPresentation
@@ -147,7 +148,7 @@ class CommentsUIIntegrationTests: XCTestCase {
         
         var sut: ListViewController?
         autoreleasepool {
-            sut = CommentsUIComposer.commentsComposedWith(commentsLoader: loader)
+            sut = CommentsUIComposer.commentsComposedWith(commentsLoader: loader.loadPublisher)
             
             sut?.loadViewIfNeeded()
         }
@@ -162,7 +163,7 @@ class CommentsUIIntegrationTests: XCTestCase {
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: ListViewController, loader: LoaderSpy) {
         let loader = LoaderSpy()
-        let sut = CommentsUIComposer.commentsComposedWith(commentsLoader: loader)
+        let sut = CommentsUIComposer.commentsComposedWith(commentsLoader: loader.loadPublisher)
         trackForMemoryLeaks(loader, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)
         return (sut, loader)
@@ -183,34 +184,29 @@ class CommentsUIIntegrationTests: XCTestCase {
         }
     }
     
-    class LoaderSpy: ImageCommentLoader {
+    class LoaderSpy {
         
-        private struct Task: LoaderTask {
-            
-            let callback: () -> Void
-            func cancel() { callback() }
-        }
-        
-        private var requests = [(RemoteLoader<[ImageComment]>.Result) -> Void]()
+        private var requests = [PassthroughSubject<[ImageComment], Error>]()
         private(set) var cancelCount = 0
         
         var loadCommentsCallCount: Int {
             return requests.count
         }
         
-        func load(completion: @escaping (RemoteLoader<[ImageComment]>.Result) -> Void) -> LoaderTask {
-            requests.append(completion)
-            return Task { [weak self] in
+        func loadPublisher() -> AnyPublisher<[ImageComment], Error> {
+            let publisher = PassthroughSubject<[ImageComment], Error>()
+            requests.append(publisher)
+            return publisher.handleEvents(receiveCancel: { [weak self] in
                 self?.cancelCount += 1
-            }
+            }).eraseToAnyPublisher()
         }
         
         func completeCommentsLoading(with comments: [ImageComment] = [], at index: Int = 0) {
-            requests[index](.success(comments))
+            requests[index].send(comments)
         }
         
         func completeCommentsLoadingWithError(at index: Int = 0) {
-            requests[index](.failure(anyError()))
+            requests[index].send(completion: .failure(anyError()))
         }
     }
 }

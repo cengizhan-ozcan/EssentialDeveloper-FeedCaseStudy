@@ -20,46 +20,23 @@ public final class LocalFeedLoader {
     }
 }
 
-extension LocalFeedLoader: FeedLoader {
+extension LocalFeedLoader {
  
-    public typealias LoadResult = FeedLoader.Result
+    public typealias LoadResult = Swift.Result<[FeedImage], Error>
     
-    private final class Task: LoaderTask {
-        
-        private var completion: ((LoadResult) -> Void)?
-        
-        init(_ completion: (@escaping (LoadResult) -> Void)) {
-            self.completion = completion
-        }
-        
-        func complete(with result: LoadResult) {
-            completion?(result)
-        }
-    
-        func cancel() {
-            preventFurtherCompletions()
-        }
-        
-        private func preventFurtherCompletions() {
-            completion = nil
-        }
-    }
-    
-    public func load(completion: @escaping (LoadResult) -> Void) -> LoaderTask {
-        let task = Task(completion)
+    public func load(completion: @escaping (LoadResult) -> Void) {
         store.retrieve { [weak self] result in
             guard let self = self else { return }
             switch result {
             case let .failure(error):
-                task.complete(with: .failure(error))
+                completion(.failure(error))
             case let .success(.some(cache)) where FeedCachePolicy.validate(cache.timestamp, against: self.currentDate()):
-                task.complete(with: .success(cache.feed.toModels()))
+                completion(.success(cache.feed.toModels()))
                 break
             case .success:
-                task.complete(with: .success([]))
+                completion(.success([]))
             }
         }
-        return task
     }
 }
     

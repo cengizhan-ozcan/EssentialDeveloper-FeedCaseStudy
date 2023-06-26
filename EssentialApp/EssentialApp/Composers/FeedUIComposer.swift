@@ -12,21 +12,23 @@ import EssentialFeediOS
 import EssentialFeedPresentation
 import SharedPresentation
 import SharedAPI
+import Combine
 
 public final class FeedUIComposer {
     
-    private typealias FeedPrensentationAdapter = LoadResourcePresentationAdapter<ResourceLoaderAdapter, [FeedImage], FeedViewAdapter>
+    private typealias FeedPrensentationAdapter = LoadResourcePresentationAdapter<[FeedImage], FeedViewAdapter>
     
     private init() {}
     
-    public static func feedComposedWith(feedLoader: FeedLoader, imageLoader: FeedImageDataLoader,
+    public static func feedComposedWith(feedLoader: @escaping () -> AnyPublisher<[FeedImage], Error>,
+                                        imageLoader: @escaping (URL) -> FeedImageDataLoader.Publisher,
                                         selection: @escaping (FeedImage) -> Void = { _ in }) -> ListViewController {
-        let presentationAdapter = FeedPrensentationAdapter(loader: ResourceLoaderAdapter(loader: MainQueueDispatchDecorator(decoratee: feedLoader)))
+        let presentationAdapter = FeedPrensentationAdapter(loader: { feedLoader().dispatchOnMainQueue() })
         
         let feedController = makeFeedViewController(title: FeedPresenter.title)
         feedController.onRefresh = presentationAdapter.loadResource
         presentationAdapter.presenter = LoadResourcePresenter(resourceView: FeedViewAdapter(controller: feedController,
-                                                                                            imageLoader: MainQueueDispatchDecorator(decoratee: imageLoader),
+                                                                                            imageLoader: { imageLoader($0).dispatchOnMainQueue() },
                                                                                             selection: selection),
                                                               loadingView: WeakRefVirtualProxy(feedController),
                                                               errorView: WeakRefVirtualProxy(feedController),
@@ -40,19 +42,5 @@ public final class FeedUIComposer {
         let feedController = storyboard.instantiateInitialViewController() as! ListViewController
         feedController.title = title
         return feedController
-    }
-}
-
-
-private class ResourceLoaderAdapter: ResourceLoader {
-    
-    let loader: FeedLoader
-    
-    init(loader: FeedLoader) {
-        self.loader = loader
-    }
-    
-    func load(completion: @escaping (Result<[FeedImage], Error>) -> Void) -> LoaderTask? {
-        return loader.load(completion: completion)
     }
 }

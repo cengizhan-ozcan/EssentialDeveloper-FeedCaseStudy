@@ -11,15 +11,16 @@ import EssentialFeediOS
 import EssentialImageCommentPresentation
 import SharedPresentation
 import SharedAPI
+import Combine
 
 public final class CommentsUIComposer {
     
-    private typealias CommentsPresentationAdapter = LoadResourcePresentationAdapter<ResourceLoaderAdapter, [ImageComment], CommentsViewAdapter>
+    private typealias CommentsPresentationAdapter = LoadResourcePresentationAdapter<[ImageComment], CommentsViewAdapter>
     
     private init() {}
     
-    public static func commentsComposedWith(commentsLoader: ImageCommentLoader) -> ListViewController {
-        let presentationAdapter = CommentsPresentationAdapter(loader: ResourceLoaderAdapter(loader: MainQueueDispatchDecorator(decoratee: commentsLoader)))
+    public static func commentsComposedWith(commentsLoader: @escaping () -> AnyPublisher<[ImageComment], Error>) -> ListViewController {
+        let presentationAdapter = CommentsPresentationAdapter(loader: { commentsLoader().dispatchOnMainQueue() })
         
         let commentsController = makeCommentsViewController(title: ImageCommentPresenter.title)
         commentsController.onRefresh = presentationAdapter.loadResource
@@ -36,19 +37,6 @@ public final class CommentsUIComposer {
         let controller = storyboard.instantiateInitialViewController() as! ListViewController
         controller.title = title
         return controller
-    }
-}
-
-private class ResourceLoaderAdapter: ResourceLoader {
-    
-    let loader: ImageCommentLoader
-    
-    init(loader: ImageCommentLoader) {
-        self.loader = loader
-    }
-    
-    func load(completion: @escaping (ImageCommentLoader.Result) -> Void) -> LoaderTask? {
-        return loader.load(completion: completion)
     }
 }
 

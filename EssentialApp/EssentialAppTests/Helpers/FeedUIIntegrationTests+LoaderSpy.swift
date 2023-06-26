@@ -6,15 +6,43 @@
 //  Copyright © 2023 Essential Developer. All rights reserved.
 //
 
+import Combine
 import Foundation
 import EssentialFeed
 import EssentialFeediOS
 
 extension FeedUIIntegrationTests {
     
-    class LoaderSpy: FeedLoader, FeedImageDataLoader {
+    class LoaderSpy: FeedImageDataLoader {
         
-        private struct TaskSpy: LoaderTask {
+        // MARK: - FeedLoader
+        private var feedRequests = [PassthroughSubject<[FeedImage], Error>]()
+        
+        var loadFeedCallCount: Int {
+            return feedRequests.count
+        }
+        
+        var feedCancelCount = 0
+        
+        func loadPublisher() -> AnyPublisher<[FeedImage], Error> {
+            let publisher = PassthroughSubject<[FeedImage], Error>()
+            feedRequests.append(publisher)
+            return publisher.handleEvents(receiveCancel: { [weak self] in
+                self?.feedCancelCount += 1
+            }).eraseToAnyPublisher()
+        }
+        
+        func completeFeedLoading(with feed: [FeedImage] = [], at index: Int = 0) {
+            feedRequests[index].send(feed)
+        }
+        
+        func completeFeedLoadingWithError(at index: Int = 0) {
+            feedRequests[index].send(completion: .failure(anyError()))
+        }
+        
+        // MARK: - FeedImageDataLoader
+        
+        private struct TaskSpy: FeedImageDataLoaderTask {
             
             let cancelCallback: () -> Void
             
@@ -22,31 +50,6 @@ extension FeedUIIntegrationTests {
                 cancelCallback()
             }
         }
-        
-        // MARK: - FeedLoader
-        private var feedRequests = [(FeedLoader.Result) -> Void]()
-        private(set) var feedCancelCount = 0
-        
-        var loadFeedCallCount: Int {
-            return feedRequests.count
-        }
-        
-        func load(completion: @escaping (FeedLoader.Result) -> Void) -> LoaderTask {
-            feedRequests.append(completion)
-            return TaskSpy { [weak self] in
-                self?.feedCancelCount += 1
-            }
-        }
-        
-        func completeFeedLoading(with feed: [FeedImage] = [], at index: Int = 0) {
-            feedRequests[index](.success(feed))
-        }
-        
-        func completeFeedLoadingWithError(at index: Int = 0) {
-            feedRequests[index](.failure(anyError()))
-        }
-        
-        // MARK: - FeedImageDataLoader
         
         private var imageRequests = [(url: URL, completion: (FeedImageDataLoader.Result) -> Void)]()
         
@@ -56,7 +59,7 @@ extension FeedUIIntegrationTests {
             return imageRequests.map { $0.url }
         }
         
-        func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) -> LoaderTask {
+        func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) -> FeedImageDataLoaderTask {
             imageRequests.append((url, completion))
             return TaskSpy { [weak self] in self?.cancelledImageURLs.append(url) }
         }

@@ -355,7 +355,7 @@ class FeedUIIntegrationTests: XCTestCase {
         
         var sut: ListViewController?
         autoreleasepool {
-            sut = FeedUIComposer.feedComposedWith(feedLoader: loader, imageLoader: loader)
+            sut = FeedUIComposer.feedComposedWith(feedLoader: loader.loadPublisher, imageLoader: loader.loadImageDataPublisher(from:))
             
             sut?.loadViewIfNeeded()
         }
@@ -371,7 +371,7 @@ class FeedUIIntegrationTests: XCTestCase {
     private func makeSUT(selection: @escaping (FeedImage) -> Void = { _ in },
                          file: StaticString = #file, line: UInt = #line) -> (sut: ListViewController, loader: LoaderSpy) {
         let loader = LoaderSpy()
-        let sut = FeedUIComposer.feedComposedWith(feedLoader: loader, imageLoader: loader, selection: selection)
+        let sut = FeedUIComposer.feedComposedWith(feedLoader: loader.loadPublisher, imageLoader: loader.loadImageDataPublisher(from:), selection: selection)
         trackForMemoryLeaks(loader, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)
         return (sut, loader)

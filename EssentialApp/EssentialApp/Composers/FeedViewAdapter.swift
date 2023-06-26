@@ -15,10 +15,11 @@ import SharedPresentation
 final class FeedViewAdapter: ResourceView {
     
     private weak var controller: ListViewController?
-    private let imageLoader: FeedImageDataLoader
+    private let imageLoader: (URL) -> FeedImageDataLoader.Publisher
     private let selection: (FeedImage) -> Void
     
-    init(controller: ListViewController, imageLoader: FeedImageDataLoader,
+    init(controller: ListViewController,
+         imageLoader: @escaping (URL) -> FeedImageDataLoader.Publisher,
          selection: @escaping (FeedImage) -> Void = { _ in }) {
         self.controller = controller
         self.imageLoader = imageLoader
@@ -28,7 +29,9 @@ final class FeedViewAdapter: ResourceView {
     func display(_ viewModel: FeedViewModel) {
         controller?.display(viewModel.feed.map { model in
             
-            let adapter = LoadResourcePresentationAdapter<ResourceLoaderAdapter, Data, WeakRefVirtualProxy<FeedImageCellController>>(loader: ResourceLoaderAdapter(url: model.url, imageLoader: imageLoader))
+            let adapter = LoadResourcePresentationAdapter<Data, WeakRefVirtualProxy<FeedImageCellController>> {
+                self.imageLoader(model.url)
+            }
             
             let view = FeedImageCellController(viewModel: FeedImagePresenter.map(model), delegate: adapter) { [selection] in
                 selection(model)
@@ -49,33 +52,3 @@ final class FeedViewAdapter: ResourceView {
 }
 
 private struct InvalidImageData: Error {}
-
-private class ResourceLoaderAdapter: ResourceLoader {
-    
-    private class ResourceLoaderLoaderTask: LoaderTask {
-        
-        var task: LoaderTask?
-        
-        init(task: LoaderTask?) {
-            self.task = task
-        }
-        
-        func cancel() {
-            task?.cancel()
-            task = nil
-        }
-    }
-    
-    private let url: URL
-    private let imageLoader: FeedImageDataLoader
-    
-    init(url: URL, imageLoader: FeedImageDataLoader) {
-        self.url = url
-        self.imageLoader = imageLoader
-    }
-    
-    func load(completion: @escaping (Result<Data, Error>) -> Void) -> LoaderTask? {
-        let task = imageLoader.loadImageData(from: url, completion: completion)
-        return ResourceLoaderLoaderTask(task: task)
-    }
-}

@@ -12,41 +12,31 @@ import EssentialFeediOS
 import EssentialFeedPresentation
 import SharedPresentation
 import SharedAPI
+import Combine
 
-protocol ResourceLoader {
+final class LoadResourcePresentationAdapter<Resource, View: ResourceView>{
     
-    associatedtype Resource
-    
-    typealias Result = Swift.Result<Resource, Error>
-    
-    func load(completion: @escaping (Result) -> Void) -> LoaderTask?
-}
-
-final class LoadResourcePresentationAdapter<Loader: ResourceLoader, Resource, View: ResourceView> where Loader.Resource == Resource {
-    
-    private let loader: Loader
-    private var task: LoaderTask?
+    private let loader: () -> AnyPublisher<Resource, Error>
+    private var cancellable: AnyCancellable?
     var presenter: LoadResourcePresenter<Resource, View>?
     
-    init(loader: Loader) {
+    init(loader: @escaping () -> AnyPublisher<Resource, Error>) {
         self.loader = loader
-    }
-    
-    deinit {
-        task?.cancel()
-        task = nil
     }
     
     func loadResource() {
         presenter?.didStartLoading()
-        task = loader.load { [weak self] result in
-            switch result {
-            case let .success(resource):
+        
+        cancellable = loader().sink(
+            receiveCompletion: { [weak self] completion in
+                switch completion {
+                case .finished: break
+                case let .failure(error):
+                    self?.presenter?.didFinishLoading(with: error)
+                }
+            }, receiveValue: { [weak self] resource in
                 self?.presenter?.didFinishLoading(with: resource)
-            case let .failure(error):
-                self?.presenter?.didFinishLoading(with: error)
-            }
-        }
+            })
     }
 }
 
@@ -57,7 +47,7 @@ extension LoadResourcePresentationAdapter: FeedImageCellControllerDelegate where
     }
     
     func didCancelImageRequest() {
-        task?.cancel()
-        task = nil
+        cancellable?.cancel()
+        cancellable = nil
     }
 }

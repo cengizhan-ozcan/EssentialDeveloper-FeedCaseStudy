@@ -15,9 +15,10 @@ import EssentialFeedAPIInfrastructure
 import EssentialFeedCacheInfrastructure
 import EssentialImageCommentsAPI
 import SharedAPI
+import Combine
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    
     var window: UIWindow?
     
     let localStoreURL = NSPersistentContainer.defaultDirectoryURL().appending(component: "feed-store.sqlite")
@@ -37,16 +38,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private lazy var baseURL = URL(string: "https://ile-api.essentialdeveloper.com/essential-feed")!
     
     private lazy var navigationController = UINavigationController(rootViewController: FeedUIComposer.feedComposedWith(
-                                                                                            feedLoader: makeRemoteFeedLoaderWithLocalFallback(),
-                                                                                            imageLoader: makeLocalImageLoaderWithRemoteFallback(),
-                                                                                            selection: showComments(for:)))
+        feedLoader: makeRemoteFeedLoaderWithLocalFallback,
+        imageLoader: makeLocalImageLoaderWithRemoteFallback,
+        selection: showComments(for:)))
     
     convenience init(httpClient: HTTPClient, store: FeedStore & FeedImageDataStore) {
         self.init()
         self.httpClient = httpClient
         self.store = store
     }
-
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
         
@@ -59,13 +60,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     private func showComments(for image: FeedImage) {
-        let url = baseURL.appending(path: "/v1/image/\(image.id)/comments")
-        let remoteClient = makeRemoteClient()
-        let remoteImageCommentLoader = RemoteLoader(url: url, client: remoteClient, mapper: ImageCommentsMapper.map)
-        let comments = CommentsUIComposer.commentsComposedWith(commentsLoader: remoteImageCommentLoader)
+        let commentsLoader = makeRemoteImageCommentLoader(with: image)
+        let comments = CommentsUIComposer.commentsComposedWith(commentsLoader: commentsLoader)
         navigationController.pushViewController(comments, animated: true)
     }
-
+    
+    private func makeRemoteImageCommentLoader(with image: FeedImage) -> () -> AnyPublisher<[ImageComment], Error> {
+        let url = baseURL.appending(path: "/v1/image/\(image.id)/comments")
+        return {
+            return self.makeRemoteClient()
+                    .getPublisher(from: url)
+                    .tryMap(ImageCommentsMapper.map)
+                    .eraseToAnyPublisher()
+        }
+    }
+    
     func configureWindow() {
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
@@ -75,36 +84,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         return httpClient
     }
     
-    private func makeRemoteFeedLoaderWithLocalFallback() -> FeedLoader {
-        let remoteURL = baseURL.appending(path: "/v1/feed")
-        let remoteFeedLoader = RemoteLoader(url: remoteURL, client: makeRemoteClient(), mapper: FeedItemsMapper.map)
-        return FeedLoaderWithFallbackComposite(primary: FeedLoaderCacheDecorator(decoratee: remoteFeedLoader, cache: localFeedLoader),
-                                               fallback: localFeedLoader)
+    private func makeRemoteFeedLoaderWithLocalFallback() -> AnyPublisher<[FeedImage], Error> {
+        return makeRemoteClient()
+            .getPublisher(from: baseURL.appending(path: "/v1/feed"))
+            .tryMap(FeedItemsMapper.map)
+            .caching(to: localFeedLoader)
+            .fallback(to: localFeedLoader.loadPublisher)
     }
     
-    private func makeLocalImageLoaderWithRemoteFallback() -> FeedImageDataLoader {
-        let remoteImageLoader = RemoteFeedImageDataLoaderAdapter(client: makeRemoteClient())
+    private func makeLocalImageLoaderWithRemoteFallback(url: URL) -> FeedImageDataLoader.Publisher {
         let localImageLoader = LocalFeedImageDataLoader(store: store)
-        return FeedImageDataLoaderWithFallbackComposite(primary: localImageLoader,
-                                                        fallback: FeedImageDataCacheDecorator(decoratee: remoteImageLoader, cache: localImageLoader))
+        return localImageLoader.loadImageDataPublisher(from: url)
+            .fallback(to: { [weak self] in
+                self?.makeRemoteClient()
+                    .getPublisher(from: url)
+                    .tryMap(FeedImageDataMapper.map)
+                    .caching(to: localImageLoader, using: url) ?? Empty().eraseToAnyPublisher()
+            })
     }
 }
 
-
-extension RemoteLoader.RemoteLoaderTask: LoaderTask {}
-
-extension RemoteLoader: FeedLoader where Resource == [FeedImage] {
-    public func load(completion: @escaping (Result) -> Void) -> LoaderTask {
-        let task: RemoteLoaderTask = load(completion: completion)
-        return task
-    }
-}
-extension RemoteLoader: ImageCommentLoader where Resource == [ImageComment] {
-    public func load(completion: @escaping (Result) -> Void) -> EssentialFeed.LoaderTask {
-        let task: RemoteLoaderTask = load(completion: completion)
-        return task
-    }
-}
+// Check 78780a0ad3b05390c469cd684884347200880f13 commit for project without using combine. After this commit all classes will be adapted to Combine.
 
 
 
