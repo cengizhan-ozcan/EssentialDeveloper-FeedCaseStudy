@@ -11,6 +11,7 @@ import EssentialFeed
 import EssentialFeediOS
 import EssentialFeedPresentation
 import SharedPresentation
+import SharedAPI
 
 final class FeedViewAdapter: ResourceView {
     
@@ -26,8 +27,8 @@ final class FeedViewAdapter: ResourceView {
         self.selection = selection
     }
     
-    func display(_ viewModel: FeedViewModel) {
-        controller?.display(viewModel.feed.map { model in
+    func display(_ viewModel: Paginated<FeedImage>) {
+        controller?.display(viewModel.items.map { model in
             
             let adapter = LoadResourcePresentationAdapter<Data, WeakRefVirtualProxy<FeedImageCellController>> {
                 self.imageLoader(model.url)
