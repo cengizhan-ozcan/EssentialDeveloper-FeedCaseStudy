@@ -78,6 +78,10 @@ extension ListViewController {
         return loadMoreFeedCell()?.isLoading == true
     }
     
+    var loadMoreFeedErrorMessage: String? {
+        return loadMoreFeedCell()?.message
+    }
+    
     func feedImageView(at row: Int) -> UITableViewCell? {
         cell(row: row, section: feedImagesSection)
     }
