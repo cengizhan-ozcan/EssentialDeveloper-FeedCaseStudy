@@ -26,7 +26,8 @@ public final class LoadMoreCellController: NSObject, UITableViewDataSource, UITa
         cell
     }
     
-    public func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    public func tableView(_ tableView: UITableView, willDisplay: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard !cell.isLoading else { return }
         callback()
     }
 }
@@ -34,7 +35,7 @@ public final class LoadMoreCellController: NSObject, UITableViewDataSource, UITa
 extension LoadMoreCellController: ResourceLoadingView, ResourceErrorView {
     
     public func display(_ viewModel: ResourceLoadingViewModel) {
-        cell.isLoading = viewModel.isLoading
+        cell.isLoading = viewModel.isLoading 
     }
     
     public func display(_ viewModel: ResourceErrorViewModel) {
