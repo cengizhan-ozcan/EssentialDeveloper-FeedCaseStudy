@@ -12,6 +12,8 @@ public class LoadMoreCell: UITableViewCell {
     
     private lazy var spinner: UIActivityIndicatorView = {
         let spinner = UIActivityIndicatorView(style: .medium)
+        spinner.stopAnimating()
+        spinner.hidesWhenStopped = true
         contentView.addSubview(spinner)
         
         spinner.translatesAutoresizingMaskIntoConstraints = false
