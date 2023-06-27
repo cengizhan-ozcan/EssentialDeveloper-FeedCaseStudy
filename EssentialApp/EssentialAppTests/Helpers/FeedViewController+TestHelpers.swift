@@ -32,13 +32,9 @@ extension ListViewController {
 // MARK: - Feed
 extension ListViewController {
     
-    func numberOfRenderedFeedImageViews() -> Int {
-        tableView.numberOfSections == 0 ? 0 : tableView.numberOfRows(inSection: feedImagesSection)
-    }
-    
     @discardableResult
     func simulateFeedImageViewVisible(at row: Int = 0) -> FeedImageCell? {
-        return feedImageView(at: row) as? FeedImageCell
+        return cell(row: row, section: feedImagesSection) as? FeedImageCell
     }
     
     @discardableResult
@@ -70,20 +66,28 @@ extension ListViewController {
         ds?.tableView?(tableView, cancelPrefetchingForRowsAt: [index])
     }
     
+    func simulateLoadMoreFeedAction() {
+        guard let view = cell(row: 0, section: feedLoadMoreSection) else { return }
+        
+        let delegate = tableView.delegate
+        let indexPath = IndexPath(row: 0, section: feedLoadMoreSection)
+        delegate?.tableView?(tableView, willDisplay: view, forRowAt: indexPath)
+    }
+    
+    func feedImageView(at row: Int) -> UITableViewCell? {
+        cell(row: row, section: feedImagesSection)
+    }
+    
+    func numberOfRenderedFeedImageViews() -> Int {
+        numberOfRows(in: feedImagesSection)
+    }
+    
     func renderedFeedImageData(at index: Int) -> Data? {
         return simulateFeedImageViewVisible(at: index)?.renderedImage
     }
     
-    func feedImageView(at row: Int) -> UITableViewCell? {
-        guard numberOfRenderedFeedImageViews() > row else { return nil }
-        let ds = tableView.dataSource
-        let indexPath = IndexPath(row: row, section: feedImagesSection)
-        return ds?.tableView(tableView, cellForRowAt: indexPath)
-    }
-    
-    private var feedImagesSection: Int {
-        return 0
-    }
+    private var feedImagesSection: Int { 0 }
+    private var feedLoadMoreSection: Int { 1 }
     
 }
 
@@ -91,19 +95,14 @@ extension ListViewController {
 // MARK: - Comments
 extension ListViewController {
     
-    func numberOfRenderedComments() -> Int {
-        tableView.numberOfSections == 0 ? 0 : tableView.numberOfRows(inSection: commentsSection)
-    }
+    private var commentsSection: Int { 0 }
     
-    private var commentsSection: Int {
-        0
+    func numberOfRenderedComments() -> Int {
+        numberOfRows(in: commentsSection)
     }
     
     private func commentView(at row: Int) -> ImageCommentCell? {
-        guard numberOfRenderedComments() > row else { return nil }
-        let ds = tableView.dataSource
-        let indexPath = IndexPath(row: row, section: commentsSection)
-        return ds?.tableView(tableView, cellForRowAt: indexPath) as? ImageCommentCell
+        cell(row: row, section: commentsSection) as? ImageCommentCell
     }
     
     func commentMessage(at row: Int) -> String? {
@@ -116,5 +115,20 @@ extension ListViewController {
     
     func commentUsername(at row: Int) -> String? {
         commentView(at: row)?.usernameLabel.text
+    }
+}
+
+// MARK: - Helpers
+extension UITableViewController {
+    
+    func cell(row: Int, section: Int) -> UITableViewCell? {
+        guard numberOfRows(in: section) > row else { return nil }
+        let ds = tableView.dataSource
+        let indexPath = IndexPath(row: row, section: section)
+        return ds?.tableView(tableView, cellForRowAt: indexPath)
+    }
+    
+    func numberOfRows(in section: Int) -> Int {
+        tableView.numberOfSections > section ? tableView.numberOfRows(inSection: section) : 0
     }
 }

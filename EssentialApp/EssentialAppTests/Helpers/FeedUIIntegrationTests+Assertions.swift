@@ -14,7 +14,7 @@ import EssentialFeediOS
 extension FeedUIIntegrationTests {
     
     func assertThat(_ sut: ListViewController, hasViewConfiguredFor image: FeedImage, at index: Int,
-                            file: StaticString = #file, line: UInt = #line) {
+                    file: StaticString = #file, line: UInt = #line) {
         let view = sut.feedImageView(at: index)
         
         guard let cell = view as? FeedImageCell else {
