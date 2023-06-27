@@ -92,6 +92,10 @@ extension ListViewController {
         cell(row: row, section: feedImagesSection)
     }
     
+    var canLoadMoreFeed: Bool {
+        loadMoreFeedCell() != nil
+    }
+    
     func loadMoreFeedCell() -> LoadMoreCell? {
         cell(row: 0, section: feedLoadMoreSection) as? LoadMoreCell
     }
