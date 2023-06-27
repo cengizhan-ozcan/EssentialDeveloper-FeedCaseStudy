@@ -36,7 +36,7 @@ final class FeedViewAdapter: ResourceView {
                 imageLoader(model.url)
             })
             
-            let view = FeedImageCellController(viewModel: FeedImagePresenter.map(model), delegate: adapter) { [selection] in
+            let view = FeedImageCellController(viewModel: FeedImagePresenter.map(model), delegate: adapter) { [selection, model] in
                 selection(model)
             }
             
@@ -56,8 +56,12 @@ final class FeedViewAdapter: ResourceView {
             controller?.display(feedSection)
             return
         }
-        let loadMoreAdapter = LoadMorePresentationAdapter(loader: loadMorePublisher)
-        let loadMore = LoadMoreCellController(callback: loadMoreAdapter.loadResource)
+        let loadMoreAdapter = LoadMorePresentationAdapter { [loadMorePublisher] in
+            loadMorePublisher().dispatchOnMainQueue()
+        }
+        let loadMore = LoadMoreCellController { [loadMoreAdapter] in
+            loadMoreAdapter.loadResource()
+        }
         
         loadMoreAdapter.presenter = LoadResourcePresenter(resourceView: self,
                                                           loadingView: WeakRefVirtualProxy(loadMore),
