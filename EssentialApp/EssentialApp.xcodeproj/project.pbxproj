@@ -46,6 +46,7 @@
 		7561D4A229B7A62E00D2C78A /* LoadResourcePresentationAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7561D48929B7A5BD00D2C78A /* LoadResourcePresentationAdapter.swift */; };
 		7561D4A529B7BEB200D2C78A /* FeedUIIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7561D4A429B7BEB200D2C78A /* FeedUIIntegrationTests.swift */; };
 		7561D4A729B7D95000D2C78A /* FeedAcceptenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7561D4A629B7D95000D2C78A /* FeedAcceptenceTests.swift */; };
+		757203522A4ECCDB00F72BC5 /* NullStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757203512A4ECCDB00F72BC5 /* NullStore.swift */; };
 		7583805E2A1EBF2800E4B5D4 /* EssentialFeediOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7583805D2A1EBF2800E4B5D4 /* EssentialFeediOS.framework */; };
 		7583805F2A1EBF2800E4B5D4 /* EssentialFeediOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7583805D2A1EBF2800E4B5D4 /* EssentialFeediOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		75F35F3629C9132D00A40927 /* EssentialImageCommentsAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75F35F3529C9132D00A40927 /* EssentialImageCommentsAPI.framework */; };
@@ -131,6 +132,7 @@
 		7561D49429B7A5E700D2C78A /* UIControl+TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+TestHelpers.swift"; sourceTree = "<group>"; };
 		7561D4A429B7BEB200D2C78A /* FeedUIIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedUIIntegrationTests.swift; sourceTree = "<group>"; };
 		7561D4A629B7D95000D2C78A /* FeedAcceptenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAcceptenceTests.swift; sourceTree = "<group>"; };
+		757203512A4ECCDB00F72BC5 /* NullStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NullStore.swift; sourceTree = "<group>"; };
 		758380582A1EBAD100E4B5D4 /* SharedPresentation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SharedPresentation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7583805D2A1EBF2800E4B5D4 /* EssentialFeediOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = EssentialFeediOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		75F35F3529C9132D00A40927 /* EssentialImageCommentsAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = EssentialImageCommentsAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -197,6 +199,11 @@
 				7561D48129B3E61600D2C78A /* DebuggingSceneDelegate.swift */,
 				7561D48B29B7A5BD00D2C78A /* Composers */,
 				7537A7EF2A425745000E0A2E /* CombineHelpers.swift */,
+				7561D48829B7A5BD00D2C78A /* FeedViewAdapter.swift */,
+				757203512A4ECCDB00F72BC5 /* NullStore.swift */,
+				7561D48629B7A5BD00D2C78A /* MainQueueDispatchDecorator.swift */,
+				7561D48729B7A5BD00D2C78A /* WeakRefVirtualProxy.swift */,
+				7561D48929B7A5BD00D2C78A /* LoadResourcePresentationAdapter.swift */,
 				75302AEB29ABAEAA00E0623E /* Assets.xcassets */,
 				75302AED29ABAEAA00E0623E /* LaunchScreen.storyboard */,
 				75302AF029ABAEAA00E0623E /* Info.plist */,
@@ -265,10 +272,6 @@
 			isa = PBXGroup;
 			children = (
 				7561D48529B7A5BD00D2C78A /* FeedUIComposer.swift */,
-				7561D48629B7A5BD00D2C78A /* MainQueueDispatchDecorator.swift */,
-				7561D48729B7A5BD00D2C78A /* WeakRefVirtualProxy.swift */,
-				7561D48829B7A5BD00D2C78A /* FeedViewAdapter.swift */,
-				7561D48929B7A5BD00D2C78A /* LoadResourcePresentationAdapter.swift */,
 				754A822B2A2FDA53006E6B42 /* CommentsUIComposer.swift */,
 			);
 			path = Composers;
@@ -416,6 +419,7 @@
 				7537A7F02A425745000E0A2E /* CombineHelpers.swift in Sources */,
 				7561D48229B3E61600D2C78A /* DebuggingSceneDelegate.swift in Sources */,
 				75302AE529ABAEA900E0623E /* SceneDelegate.swift in Sources */,
+				757203522A4ECCDB00F72BC5 /* NullStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
