@@ -14,6 +14,14 @@ import EssentialFeedCache
 
 extension Publisher {
     
+    func logCacheMisses(url: URL, logger: Logger) -> AnyPublisher<Output, Failure> {
+        return handleEvents(receiveCompletion: { result in
+            if case .failure = result {
+                logger.trace("Cache misses for url: \(url)")
+            }
+        }).eraseToAnyPublisher()
+    }
+    
     func logErrors(url: URL, logger: Logger) -> AnyPublisher<Output, Failure> {
         return handleEvents(receiveCompletion: { result in
             if case let .failure(error) = result {
