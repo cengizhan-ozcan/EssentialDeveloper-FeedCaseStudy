@@ -26,18 +26,22 @@ class FeedAcceptenceTests: XCTestCase {
         feed.simulateLoadMoreFeedAction()
         
         XCTAssertEqual(feed.numberOfRenderedFeedImageViews(), 3)
-        XCTAssertEqual(feed.renderedFeedImageData(at: 0), makeImageData0())
-        XCTAssertEqual(feed.renderedFeedImageData(at: 1), makeImageData1())
-        XCTAssertEqual(feed.renderedFeedImageData(at: 2), makeImageData2())
-        XCTAssertTrue(feed.canLoadMoreFeed)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            XCTAssertEqual(feed.renderedFeedImageData(at: 0), self.makeImageData0())
+            XCTAssertEqual(feed.renderedFeedImageData(at: 1), self.makeImageData1())
+            XCTAssertEqual(feed.renderedFeedImageData(at: 2), self.makeImageData2())
+            XCTAssertTrue(feed.canLoadMoreFeed)
+        }
         
         feed.simulateLoadMoreFeedAction()
         
         XCTAssertEqual(feed.numberOfRenderedFeedImageViews(), 3)
-        XCTAssertEqual(feed.renderedFeedImageData(at: 0), makeImageData0())
-        XCTAssertEqual(feed.renderedFeedImageData(at: 1), makeImageData1())
-        XCTAssertEqual(feed.renderedFeedImageData(at: 2), makeImageData2())
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            XCTAssertEqual(feed.renderedFeedImageData(at: 0), self.makeImageData0())
+            XCTAssertEqual(feed.renderedFeedImageData(at: 1), self.makeImageData1())
+            XCTAssertEqual(feed.renderedFeedImageData(at: 2), self.makeImageData2())
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             XCTAssertFalse(feed.canLoadMoreFeed)
         }
     }

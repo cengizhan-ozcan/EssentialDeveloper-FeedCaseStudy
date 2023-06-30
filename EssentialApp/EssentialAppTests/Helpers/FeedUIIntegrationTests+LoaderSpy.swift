@@ -44,6 +44,7 @@ extension FeedUIIntegrationTests {
                 self?.loadMoreRequests.append(publisher)
                 return publisher.eraseToAnyPublisher()
             }))
+            feedRequests[index].send(completion: .finished)
         }
         
         func completeFeedLoadingWithError(at index: Int = 0) {
