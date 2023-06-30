@@ -26,21 +26,17 @@ class FeedAcceptenceTests: XCTestCase {
         feed.simulateLoadMoreFeedAction()
         
         XCTAssertEqual(feed.numberOfRenderedFeedImageViews(), 3)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            XCTAssertEqual(feed.renderedFeedImageData(at: 0), self.makeImageData0())
-            XCTAssertEqual(feed.renderedFeedImageData(at: 1), self.makeImageData1())
-            XCTAssertEqual(feed.renderedFeedImageData(at: 2), self.makeImageData2())
-            XCTAssertTrue(feed.canLoadMoreFeed)
-        }
+        XCTAssertEqual(feed.renderedFeedImageData(at: 0), self.makeImageData0())
+        XCTAssertEqual(feed.renderedFeedImageData(at: 1), self.makeImageData1())
+        XCTAssertEqual(feed.renderedFeedImageData(at: 2), self.makeImageData2())
+        XCTAssertTrue(feed.canLoadMoreFeed)
         
         feed.simulateLoadMoreFeedAction()
         
         XCTAssertEqual(feed.numberOfRenderedFeedImageViews(), 3)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            XCTAssertEqual(feed.renderedFeedImageData(at: 0), self.makeImageData0())
-            XCTAssertEqual(feed.renderedFeedImageData(at: 1), self.makeImageData1())
-            XCTAssertEqual(feed.renderedFeedImageData(at: 2), self.makeImageData2())
-        }
+        XCTAssertEqual(feed.renderedFeedImageData(at: 0), self.makeImageData0())
+        XCTAssertEqual(feed.renderedFeedImageData(at: 1), self.makeImageData1())
+        XCTAssertEqual(feed.renderedFeedImageData(at: 2), self.makeImageData2())
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             XCTAssertFalse(feed.canLoadMoreFeed)
         }
@@ -95,7 +91,7 @@ class FeedAcceptenceTests: XCTestCase {
     
     private func launch(httpClient: HTTPClientStub = .offline, store: InMemoryFeedStore = .empty) -> ListViewController {
         let sut = SceneDelegate(httpClient: httpClient, store: store)
-        sut.window = UIWindow()
+        sut.window = UIWindow(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
         sut.configureWindow()
         
         let nav = sut.window?.rootViewController as? UINavigationController
