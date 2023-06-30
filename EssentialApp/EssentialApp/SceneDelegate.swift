@@ -132,20 +132,69 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     private func makeLocalImageLoaderWithRemoteFallback(url: URL) -> FeedImageDataLoader.Publisher {
+        //let client = HTTPClientProfilingDecorator(decoratee: makeRemoteClient(), logger: logger)
+        let client = makeRemoteClient()
         let localImageLoader = LocalFeedImageDataLoader(store: store)
         return localImageLoader.loadImageDataPublisher(from: url)
-            .fallback(to: { [weak self] in
-                self?.makeRemoteClient()
+            .fallback(to: { [logger] in
+                client
                     .getPublisher(from: url)
+                    .logElapsedTime(url: url, logger: logger)
+                    .logErrors(url: url, logger: logger)
                     .tryMap(FeedImageDataMapper.map)
-                    .caching(to: localImageLoader, using: url) ?? Empty().eraseToAnyPublisher()
+                    .caching(to: localImageLoader, using: url)
             })
     }
 }
 
 // Check 78780a0ad3b05390c469cd684884347200880f13 commit for project without using combine. After this commit all classes will be adapted to Combine.
 
+extension Publisher {
+    
+    func logErrors(url: URL, logger: Logger) -> AnyPublisher<Output, Failure> {
+        return handleEvents(receiveCompletion: { result in
+            if case let .failure(error) = result {
+                logger.trace("Failed to load url: \(url) with error: \(error.localizedDescription)")
+            }
+        }).eraseToAnyPublisher()
+    }
+    
+    func logElapsedTime(url: URL, logger: Logger) -> AnyPublisher<Output, Failure> {
+        var startTime = CACurrentMediaTime()
+        return handleEvents(receiveSubscription: {  _ in
+            logger.trace("Started loading url: \(url)")
+            startTime = CACurrentMediaTime()
+        }, receiveCompletion: { result in
+            let elapsed = CACurrentMediaTime() - startTime
+            logger.trace("Finished loading url: \(url) in \(elapsed) seconds")
+        }).eraseToAnyPublisher()
+    }
+}
 
 
-
-
+private class HTTPClientProfilingDecorator: HTTPClient {
+    
+    private let decoratee: HTTPClient
+    private let logger: Logger
+    
+    internal init(decoratee: HTTPClient, logger: Logger) {
+        self.decoratee = decoratee
+        self.logger = logger
+    }
+    
+    func get(from url: URL, completion: @escaping (HTTPClient.Result) -> Void) -> HTTPClientTask {
+        logger.trace("Started loading url: \(url)")
+        
+        let startTime = CACurrentMediaTime()
+        return decoratee.get(from: url) { [logger] result in
+            if case let .failure(error) = result {
+                logger.trace("Failed to load url: \(url) with error: \(error.localizedDescription)")
+            }
+            
+            let elapsed = CACurrentMediaTime() - startTime
+            logger.trace("Finished loading url: \(url) in \(elapsed) seconds")
+            
+            completion(result)
+        }
+    }
+}
