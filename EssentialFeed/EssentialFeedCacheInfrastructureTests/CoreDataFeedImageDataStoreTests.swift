@@ -60,7 +60,7 @@ class CoreDataFeedImageDataStoreTests: XCTestCase {
         return sut
     }
     
-    private func expect(_ sut: CoreDataFeedStore, toCompleteWith expectedResult: FeedImageDataStore.RetrievalResult,
+    private func expect(_ sut: CoreDataFeedStore, toCompleteWith expectedResult: Result<Data?, Error>,
                         for url: URL, file: StaticString = #file, line: UInt = #line) {
         
         let receivedResult = Result { try sut.retrieve(dataForURL: url) }
@@ -74,11 +74,11 @@ class CoreDataFeedImageDataStoreTests: XCTestCase {
         }
     }
     
-    private func notFound() -> FeedImageDataStore.RetrievalResult {
+    private func notFound() -> Result<Data?, Error> {
         return .success(.none)
     }
     
-    private func found(_ data: Data) -> FeedImageDataStore.RetrievalResult {
+    private func found(_ data: Data) -> Result<Data?, Error> {
         return .success(data)
     }
     
