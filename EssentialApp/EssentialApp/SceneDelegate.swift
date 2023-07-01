@@ -22,6 +22,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
     
+    private lazy var scheduler: AnyDispatchQueueScheduler = DispatchQueue(
+        label: "com.cengizhanozcan.infra.queue",
+        qos: .userInitiated,
+        attributes: .concurrent
+    ).eraseToAnyScheduler()
+    
     let localStoreURL = NSPersistentContainer.defaultDirectoryURL().appending(component: "feed-store.sqlite")
     
     private lazy var httpClient: HTTPClient = {
@@ -51,10 +57,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         imageLoader: makeLocalImageLoaderWithRemoteFallback,
         selection: showComments(for:)))
     
-    convenience init(httpClient: HTTPClient, store: FeedStore & FeedImageDataStore) {
+    convenience init(httpClient: HTTPClient, store: FeedStore & FeedImageDataStore,
+                     scheduler: AnyDispatchQueueScheduler) {
         self.init()
         self.httpClient = httpClient
         self.store = store
+        self.scheduler = scheduler
     }
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -97,6 +105,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         makeRemoteFeedLoader()
             .caching(to: localFeedLoader)
             .fallback(to: localFeedLoader.loadPublisher)
+            .subscribe(on: scheduler)
+            .eraseToAnyPublisher()
             .map(makeFirstPage(items:))
             .eraseToAnyPublisher()
     }
@@ -137,14 +147,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         return localImageLoader
             .loadImageDataPublisher(from: url)
             .logCacheMisses(url: url, logger: logger)
-            .fallback(to: { [logger] in
+            .fallback(to: { [logger, scheduler] in
                 client
                     .getPublisher(from: url)
                     .logElapsedTime(url: url, logger: logger)
                     .logErrors(url: url, logger: logger)
                     .tryMap(FeedImageDataMapper.map)
                     .caching(to: localImageLoader, using: url)
+                    .subscribe(on: scheduler)
+                    .eraseToAnyPublisher()
             })
+            .subscribe(on: scheduler)
+            .eraseToAnyPublisher()
     }
 }
 
