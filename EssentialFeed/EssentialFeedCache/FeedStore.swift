@@ -32,9 +32,6 @@ public protocol FeedStore {
     /// Clients are responsible to dispatch to appropriate threads, if needed
     func retrieve() throws -> CachedFeed?
     
-    
-    
-    
     /// The completion handler can be invoked in any thread
     /// Clients are responsible to dispatch to appropriate threads, if needed
     @available(*, deprecated)
